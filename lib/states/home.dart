@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> getfiledetail() async {
+    //รับค่าข้อมูลไฟล์ทั้งหมด
     file_detail_list.clear();
     String apipath =
         'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
@@ -60,13 +61,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         toolbarHeight: 100,
         title: const Text(
-          'Sale Material',
+          'Sale knowles Center',
           style: TextStyle(fontSize: 50),
         ),
         backgroundColor: const Color.fromARGB(255, 235, 10, 30),
         foregroundColor: Colors.white,
         actions: [
           Container(
+            // ปุ่มUploadหน้าHome
             margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
             child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
@@ -116,60 +118,55 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   Container(
+                    //SearchBar
                     margin: EdgeInsets.all(10),
-                    //Search
                     constraints: BoxConstraints(maxWidth: 500, maxHeight: 45),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       color: Color.fromARGB(255, 255, 255, 255),
                       border: Border.all(
-                        color: Colors.black, // สีขอบ
-                        width: 2, // ความหนาของขอบ
+                        color: Colors.black,
+                        width: 2,
                       ),
                     ),
                     child: TextField(
                       textInputAction: TextInputAction.search,
                       onSubmitted: (value) {
                         var matchingFiles = file_detail_list.where((file) =>
-                                file.name_file.toLowerCase().contains(value
-                                    .toLowerCase()) || // ตรวจสอบว่าชื่อไฟล์มี value ที่ค้นหาหรือไม่
-                                file.Tag.toLowerCase().contains(value
-                                    .toLowerCase()) || // ตรวจสอบ Tag มี value ที่ค้นหาหรือไม่
-                                file.IDcategory_first.toLowerCase().contains(value
-                                    .toLowerCase()) || // ตรวจสอบ IDcategory_first มี value ที่ค้นหาหรือไม่
-                                file.IDcategory_second!
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()) ||
-                                file.IDcategory_third!
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase()) ||
-                                file.IDcategory_fourth!
-                                    .toLowerCase()
-                                    .contains(value.toLowerCase())
-                            // ตรวจสอบ IDcategory_second มี value ที่ค้นหาหรือไม่
-
-                            );
+                            file.name_file.toLowerCase().contains(value
+                                .toLowerCase()) || // ตรวจสอบว่าชื่อไฟล์มี value ที่ค้นหาหรือไม่
+                            file.Tag.toLowerCase().contains(value
+                                .toLowerCase()) || // ตรวจสอบ Tag มี value ที่ค้นหาหรือไม่
+                            file.IDcategory_first.toLowerCase().contains(value
+                                .toLowerCase()) || // ตรวจสอบ category 1  มี value ที่ค้นหาหรือไม่
+                            file.IDcategory_second! // ตรวจสอบ category 2 มี value ที่ค้นหาหรือไม่
+                                .toLowerCase()
+                                .contains(value.toLowerCase()) ||
+                            file.IDcategory_third! // ตรวจสอบ category 3 มี value ที่ค้นหาหรือไม่
+                                .toLowerCase()
+                                .contains(value.toLowerCase()) ||
+                            file.IDcategory_fourth! // ตรวจสอบ category 4 มี value ที่ค้นหาหรือไม่
+                                .toLowerCase()
+                                .contains(value.toLowerCase()));
                         if (matchingFiles.isNotEmpty) {
+                          //ถ้ามีข้อมูล
                           showDialog(
                             context: context,
                             builder: (context) {
                               return AlertDialog(
                                 title: Text('Search Result'),
                                 content: SizedBox(
-                                  // กำหนดขนาดสำหรับ ListView
-                                  width: double
-                                      .maxFinite, // หรือขนาดที่เฉพาะเจาะจง
-                                  height: 300, // ตัวอย่างเช่น กำหนดความสูง
+                                  width: double.maxFinite,
+                                  height: 300,
                                   child: ListView.builder(
+                                    //แสดงไฟล์ที่ค้นเจอ
                                     itemCount: matchingFiles.length,
                                     itemBuilder: (context, index) {
                                       var file = matchingFiles.elementAt(index);
                                       return InkWell(
                                         onTap: () {
-                                          // ตรงนี้คุณสามารถจัดการกับการแตะที่รายการ
-                                          // ตัวอย่าง: แสดงข้อความหรือเปลี่ยนหน้า
-
                                           showDialog(
+                                            //แสดงรายละเอียดไฟล์
                                             context: context,
                                             builder: (context) => AlertDialog(
                                               title: Row(
@@ -193,7 +190,6 @@ class _HomePageState extends State<HomePage> {
                                                 ],
                                               ),
                                               content: SingleChildScrollView(
-                                                //POPUP เปิดไฟล์
                                                 child: Column(
                                                   children: [
                                                     GestureDetector(
@@ -454,6 +450,7 @@ class _HomePageState extends State<HomePage> {
                                                         Navigator.pop(context),
                                                     child: Text('Cancel')),
                                                 TextButton(
+                                                  //แก้ไขรายละเอียดไฟล์
                                                   onPressed: () async {
                                                     showDialog(
                                                       context: context,
@@ -470,14 +467,13 @@ class _HomePageState extends State<HomePage> {
                                                                   children: [
                                                                     TextField(
                                                                       controller:
-                                                                          descriptionFileEdit, // ใช้ TextEditingController ที่กำหนดไว้ก่อนหน้านี้
+                                                                          descriptionFileEdit,
                                                                       decoration:
                                                                           const InputDecoration(
                                                                         labelText:
-                                                                            'แก้ไขรายละเอียด', // ให้เป็น label ของ TextField
+                                                                            'แก้ไขรายละเอียด',
                                                                       ),
                                                                     ),
-                                                                    // สามารถเพิ่ม TextField หรือ Widgets อื่นๆ เพิ่มเติมที่นี่
                                                                   ],
                                                                 ),
                                                               ),
@@ -492,8 +488,6 @@ class _HomePageState extends State<HomePage> {
                                                                 TextButton(
                                                                   onPressed:
                                                                       () async {
-                                                                    // print(
-                                                                    //     '${descriptionFileEdit.text}');
                                                                     String
                                                                         apipath =
                                                                         'https://btmexpertsales.com/filemanagesys/edit_file_detail.php?descriptionFileEdit=${descriptionFileEdit.text}&idFile=${file.number_cate}';
@@ -545,12 +539,11 @@ class _HomePageState extends State<HomePage> {
                             context: context,
                             builder: (context) {
                               return AlertDialog(
-                                backgroundColor:
-                                    Colors.white, // Set background color
+                                backgroundColor: Colors.white,
                                 title: const Text(
                                   'ERROR',
                                   style: TextStyle(
-                                    color: Colors.red, // Set title text color
+                                    color: Colors.red,
                                     fontWeight: FontWeight.bold,
                                     fontSize: 18,
                                   ),
@@ -558,8 +551,7 @@ class _HomePageState extends State<HomePage> {
                                 content: const Text(
                                   'No information found !!!',
                                   style: TextStyle(
-                                    color: Color.fromARGB(
-                                        255, 0, 0, 0), // Set content text color
+                                    color: Color.fromARGB(255, 0, 0, 0),
                                     fontSize: 16,
                                   ),
                                 ),
@@ -571,8 +563,7 @@ class _HomePageState extends State<HomePage> {
                                     child: const Text(
                                       'Confirm',
                                       style: TextStyle(
-                                        color: Colors
-                                            .blue, // Set button text color
+                                        color: Colors.blue,
                                       ),
                                     ),
                                   ),
@@ -592,6 +583,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                   Container(
+                    //ส่วนที่แสดงปุ่มต่างๆ เมื่อกดแล้วจะไปหน้าแสดงคอนเทนต์และส่งค่าปุ่มที่กดไปด้วยเพื่อนำไปแสดงไฟล์ที่เกี่ยวข้องกับข้อมูลที่ส่งไง
                     width: screensize,
                     child: Container(
                         alignment: Alignment.center,
@@ -603,9 +595,6 @@ class _HomePageState extends State<HomePage> {
                                 height: 535,
                                 padding:
                                     const EdgeInsets.fromLTRB(0, 10, 0, 10),
-
-                                // color: Colors.grey, // เปลี่ยนสีพื้นหลังเป็นเทา
-
                                 child: Container(
                                     child: Column(children: [
                                   Container(
@@ -627,8 +616,8 @@ class _HomePageState extends State<HomePage> {
                                           borderRadius:
                                               BorderRadius.circular(10),
                                         ),
-                                        backgroundColor: Color.fromARGB(149, 0,
-                                            0, 0), // เปลี่ยนสีปุ่มเป็นสีแดง
+                                        backgroundColor:
+                                            Color.fromARGB(149, 0, 0, 0),
                                       ),
                                       onPressed: () {
                                         Navigator.push(context,
@@ -735,8 +724,7 @@ class _HomePageState extends State<HomePage> {
                                             image: DecorationImage(
                                               image: AssetImage(
                                                   myconstant.alliedProductbg),
-                                              fit: BoxFit
-                                                  .cover, // ให้รูปภาพปรับขนาดให้พอดีกับ Container
+                                              fit: BoxFit.cover,
                                             ),
                                           ),
                                         ),
@@ -794,7 +782,7 @@ class _HomePageState extends State<HomePage> {
                                                       currentOption4 = null;
                                                     });
                                                   },
-                                                  child: Column(
+                                                  child: const Column(
                                                     mainAxisAlignment:
                                                         MainAxisAlignment
                                                             .center,
@@ -898,7 +886,7 @@ class _HomePageState extends State<HomePage> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        " Graphic Design & Video Animation ",
+                                                        "Promotion",
                                                         style: TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
@@ -932,31 +920,28 @@ class _HomePageState extends State<HomePage> {
                                         ],
                                       ),
                                       Container(
+                                        //ปุ่ม MHE
                                         margin:
                                             EdgeInsets.fromLTRB(20, 10, 0, 0),
                                         padding:
                                             EdgeInsets.fromLTRB(10, 0, 10, 0),
                                         height: 243,
-                                        //จะใส่พื้นหลัง 4 อัน
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
                                           color: Color.fromARGB(
                                               255, 255, 255, 255),
-                                          // image: DecorationImage(
-                                          //     image: AssetImage(myconstant.bg),
-                                          //     fit: BoxFit
-                                          //         .cover // ปรับขนาดรูปให้เต็ม Container
-                                          //     ),
                                         ),
                                         child: Row(
                                           children: [
                                             Stack(
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      10, 0, 5, 0),
-                                                  decoration: BoxDecoration(
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          10, 0, 5, 0),
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(8)),
@@ -977,12 +962,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  Color
+                                                                  const Color
                                                                       .fromARGB(
-                                                                          50,
-                                                                          163,
-                                                                          163,
-                                                                          163)),
+                                                                      50,
+                                                                      163,
+                                                                      163,
+                                                                      163)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1004,7 +989,7 @@ class _HomePageState extends State<HomePage> {
                                                                 EdgeInsets.only(
                                                                     top: 100),
                                                             alignment: Alignment
-                                                                .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                                .center,
                                                             child: const Text(
                                                               "MHE",
                                                               style: TextStyle(
@@ -1135,7 +1120,7 @@ class _HomePageState extends State<HomePage> {
                                                                 EdgeInsets.only(
                                                                     top: 100),
                                                             alignment: Alignment
-                                                                .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                                .center,
                                                             child: const Text(
                                                               "MHE",
                                                               style: TextStyle(
@@ -1160,7 +1145,7 @@ class _HomePageState extends State<HomePage> {
                                                                 EdgeInsets.only(
                                                                     top: 0),
                                                             alignment: Alignment
-                                                                .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                                .center,
                                                             child: const Text(
                                                               "BROCHURE",
                                                               style: TextStyle(
@@ -1216,9 +1201,11 @@ class _HomePageState extends State<HomePage> {
                                             Stack(
                                               children: [
                                                 Container(
-                                                  margin: EdgeInsets.fromLTRB(
-                                                      10, 0, 5, 0),
-                                                  decoration: BoxDecoration(
+                                                  margin:
+                                                      const EdgeInsets.fromLTRB(
+                                                          10, 0, 5, 0),
+                                                  decoration:
+                                                      const BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.all(
                                                             Radius.circular(8)),
@@ -1239,12 +1226,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  Color
+                                                                  const Color
                                                                       .fromARGB(
-                                                                          50,
-                                                                          163,
-                                                                          163,
-                                                                          163)),
+                                                                      50,
+                                                                      163,
+                                                                      163,
+                                                                      163)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1260,17 +1247,18 @@ class _HomePageState extends State<HomePage> {
                                                         });
                                                       },
                                                       child: Container(
-                                                        padding: EdgeInsets.only(
-                                                            top:
-                                                                45), // ปรับตำแหน่งข้อความได้ที่นี่
+                                                        padding:
+                                                            EdgeInsets.only(
+                                                                top: 45),
                                                         child: Column(
                                                           children: [
                                                             Container(
                                                               padding: EdgeInsets
                                                                   .only(
                                                                       top: 55),
-                                                              alignment: Alignment
-                                                                  .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                               child: const Text(
                                                                 "MHE",
                                                                 style:
@@ -1294,8 +1282,9 @@ class _HomePageState extends State<HomePage> {
                                                             Container(
                                                               padding: EdgeInsets
                                                                   .only(top: 0),
-                                                              alignment: Alignment
-                                                                  .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
                                                               child: const Text(
                                                                 "PICTURE",
                                                                 style:
@@ -1376,12 +1365,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  Color
+                                                                  const Color
                                                                       .fromARGB(
-                                                                          50,
-                                                                          163,
-                                                                          163,
-                                                                          163)),
+                                                                      50,
+                                                                      163,
+                                                                      163,
+                                                                      163)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1403,7 +1392,7 @@ class _HomePageState extends State<HomePage> {
                                                                 EdgeInsets.only(
                                                                     top: 100),
                                                             alignment: Alignment
-                                                                .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                                .center,
                                                             child: const Text(
                                                               "MHE",
                                                               style: TextStyle(
@@ -1428,7 +1417,7 @@ class _HomePageState extends State<HomePage> {
                                                                 EdgeInsets.only(
                                                                     top: 0),
                                                             alignment: Alignment
-                                                                .center, // นำ Alignment.center ไปใส่ที่นี่
+                                                                .center,
                                                             child: const Text(
                                                               "VIDEO",
                                                               style: TextStyle(

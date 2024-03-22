@@ -96,6 +96,7 @@ class _VideoContentState extends State<VideoContent> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
+                    // แสดงวิดีโอ
                     margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
                     child: SizedBox(
                       width: 800,
@@ -108,11 +109,13 @@ class _VideoContentState extends State<VideoContent> {
                   ),
                   SizedBox(height: 20),
                   for (var data in video_detail_list)
+                    // แสดงรายละเอียดวิดีโอ
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Container(
-                          margin: EdgeInsets.all(10),
+                          //ชื่อ
+                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
                           child: Text(
                             '${data.name_file}',
                             style: TextStyle(
@@ -122,7 +125,8 @@ class _VideoContentState extends State<VideoContent> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.fromLTRB(10, 0, 0, 0),
+                          // รายละเอียด
+                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
                           width: 800,
                           child: Text(
                             '${data.description_file}',
@@ -133,7 +137,8 @@ class _VideoContentState extends State<VideoContent> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.all(10),
+                          // ผู้อัพโหลด
+                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
                           child: Text(
                             '${data.user_name}',
                             style: TextStyle(
@@ -142,7 +147,8 @@ class _VideoContentState extends State<VideoContent> {
                           ),
                         ),
                         Container(
-                          margin: EdgeInsets.all(10),
+                          // tag
+                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
                           child: Text(
                             '${data.Tag}',
                             style: TextStyle(
@@ -155,14 +161,14 @@ class _VideoContentState extends State<VideoContent> {
                 ],
               ),
               Container(
+                  // ไฟล์ที่เกี่ยวข้อง
                   height: screensizeHeight * 0.8,
                   decoration: BoxDecoration(
                     border: Border.all(
-                      color: Colors.black, // กำหนดสีของเส้นขอบ
-                      width: 0.5, // กำหนดความหนาของเส้นขอบ
+                      color: Colors.black,
+                      width: 0.5,
                     ),
-                    borderRadius:
-                        BorderRadius.circular(10), // กำหนดขอบมนให้กับ Container
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: SingleChildScrollView(
                       child: Column(
@@ -170,9 +176,9 @@ class _VideoContentState extends State<VideoContent> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          margin: EdgeInsets.fromLTRB(30, 10, 10, 10),
-                          child: Text(
-                            'Tag ที่เกี่ยวข้อง :',
+                          margin: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                          child: const Text(
+                            'ไฟล์ที่เกี่ยวข้อง :',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.bold,
@@ -184,12 +190,12 @@ class _VideoContentState extends State<VideoContent> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             Container(
+                                // ปุ่มfilter file ถ้ากดBrochure จะแสดงเฉพาะไฟล์ที่ IDcategory_first(category1) == Brochure
                                 margin: EdgeInsets.fromLTRB(30, 5, 5, 5),
                                 width: 130,
                                 height: 40,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      // Add your filter functionality here
                                       setState(() {
                                         filteredFiles = file_detail_list
                                             .where((file) =>
@@ -218,7 +224,6 @@ class _VideoContentState extends State<VideoContent> {
                               height: 40,
                               child: ElevatedButton(
                                   onPressed: () {
-                                    // Add your filter functionality here
                                     setState(() {
                                       filteredFiles = file_detail_list
                                           .where((file) =>
@@ -305,11 +310,12 @@ class _VideoContentState extends State<VideoContent> {
                         ),
                       ),
                       Column(
+                        // แสดงไฟล์ที่เกี่ยวข้อง
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           for (var data
-                              in filteredFiles) // Use filteredFiles instead of file_detail_list
+                              in filteredFiles) //แสดงไฟล์ทั้งหมดที่อยู่ใน filteredFiles
                             if (data.Tag != '' &&
                                 data.Tag != null &&
                                 video_detail_list.any(
@@ -331,6 +337,8 @@ class _VideoContentState extends State<VideoContent> {
                                     ),
                                     onPressed: () {
                                       showDialog(
+                                        //POPUPแสดงรายละเอียดไฟล์ที่คลิก
+
                                         useSafeArea: true,
                                         context: context,
                                         builder: (context) => AlertDialog(
@@ -371,6 +379,7 @@ class _VideoContentState extends State<VideoContent> {
                                                     ),
                                                   ),
                                                   Container(
+                                                    //ปุ่มดาวน์โหลด คลิกเพื่อดาวน์โหลดไฟล์ที่อยู่ในServer ถ้าคลิกที่เป็นVideo youtube จะแสดง
                                                     height: 20,
                                                     constraints: BoxConstraints(
                                                         maxWidth: 200),
@@ -396,6 +405,8 @@ class _VideoContentState extends State<VideoContent> {
                                             child: SingleChildScrollView(
                                               //POPUP เปิดไฟล์
                                               child: Column(
+                                                // มีปัญหาตรงที่ถ้าคลิกDialogที่ซ้อนอยู่ด้านบน YoutubePlayerIFrame แล้วตรงที่คลิกอยู่ในกรอบของ YoutubePlayerIFrame มันจะไปคลิกที่ YoutubePlayerIFrame ไม่ไดคลิก Dialog
+                                                //่เป็นทุกอันใน Column นี้
                                                 children: [
                                                   GestureDetector(
                                                     onTap: () {
@@ -403,9 +414,11 @@ class _VideoContentState extends State<VideoContent> {
                                                           'youtube_url') {
                                                         print(
                                                             '888888 ${data.name_file}');
-                                                        Navigator.pushReplacement(
-                                                            context,
-                                                            MaterialPageRoute(
+                                                        Navigator
+                                                            .pushReplacement(
+                                                                //เปิดหน้าแสดงVideo ที่จะแสดงข้อมูลวิดีโอที่เปิดอยู่ใน POPUP
+                                                                context,
+                                                                MaterialPageRoute(
                                                           builder: (context) {
                                                             return VideoContent(
                                                               idref:
@@ -422,6 +435,7 @@ class _VideoContentState extends State<VideoContent> {
                                                       } else if (data
                                                               .type_file ==
                                                           'fileServer_url') {
+                                                        //เปิดไฟล์ ที่เลือกในเว็ป เบราว์เซอร์ ถ้าเป็นไฟล์อื่นๆบอกจาก รูปภาพและPDF จะเป็นการดาวน์โหลด
                                                         String fileUrl =
                                                             'https://btmexpertsales.com/filemanagesys/file/${data.name_file}';
                                                         launch(fileUrl);
@@ -431,7 +445,7 @@ class _VideoContentState extends State<VideoContent> {
                                                     },
                                                     child: Stack(
                                                       children: [
-                                                        // Container ที่บรรจุรูปภาพ
+                                                        // Container ที่บรรจุรูปภาพ รูปภาพที่แสดงจะเปลี่ยนไปตามนามสกุลไฟล์
                                                         Container(
                                                           width: 700,
                                                           height: 400,
@@ -483,7 +497,7 @@ class _VideoContentState extends State<VideoContent> {
                                                           ),
                                                         ),
                                                         if (data.type_file ==
-                                                            'youtube_url')
+                                                            'youtube_url') //ถ้าเป็นไฟล์วิดีโอตรงแสดงรุปภาพจะมี icon play อยู่ด้วย
                                                           Positioned(
                                                             top: 150,
                                                             left: 300,
@@ -502,7 +516,7 @@ class _VideoContentState extends State<VideoContent> {
                                                                       myconstant
                                                                           .playicon),
                                                                   fit: BoxFit
-                                                                      .scaleDown, // หรือเลือก BoxFit ตามที่เหมาะสม
+                                                                      .scaleDown,
                                                                 ),
                                                               ),
                                                             ),
@@ -511,6 +525,9 @@ class _VideoContentState extends State<VideoContent> {
                                                     ),
                                                   ),
                                                   Container(
+                                                    margin: const EdgeInsets
+                                                        .fromLTRB(20, 5, 10, 5),
+                                                    //รายละเอียดTextต่างๆของไฟล์ที่อยู่ใน POPUP
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
@@ -631,11 +648,10 @@ class _VideoContentState extends State<VideoContent> {
                                                               const EdgeInsets
                                                                   .fromLTRB(
                                                                   10, 0, 10, 0),
-                                                          width: 120,
                                                           child: Row(
                                                             children: [
                                                               const Text(
-                                                                'File ID : ',
+                                                                'Tags : ',
                                                                 style: TextStyle(
                                                                     fontWeight:
                                                                         FontWeight
@@ -644,18 +660,10 @@ class _VideoContentState extends State<VideoContent> {
                                                                         16),
                                                               ),
                                                               Text(
-                                                                  "${data.number_cate}"),
+                                                                  "${data.Tag}"),
                                                             ],
                                                           ),
                                                         ),
-                                                        // Container(
-                                                        //   margin:
-                                                        //       EdgeInsets.fromLTRB(
-                                                        //           10, 0, 10, 0),
-                                                        //   width: 120,
-                                                        //   child: Text(
-                                                        //       "${data.category}"),
-                                                        // ),
                                                       ],
                                                     ),
                                                   ),
@@ -669,6 +677,7 @@ class _VideoContentState extends State<VideoContent> {
                                                     Navigator.pop(context),
                                                 child: Text('Cancel')),
                                             TextButton(
+                                              //ปุ่ม Edit ข้อมูลไฟล์ สามารถแก้ไขได้แค่Description file
                                               onPressed: () async {
                                                 showDialog(
                                                   context: context,
@@ -709,7 +718,8 @@ class _VideoContentState extends State<VideoContent> {
                                                                   () async {
                                                                 print(
                                                                     '${descriptionFileEdit.text}');
-                                                                String apipath =
+                                                                String
+                                                                    apipath = //อัพเดทdescription_file ใน table filemanage_filedetail ตาม descriptionFileEdit
                                                                     'https://btmexpertsales.com/filemanagesys/edit_file_detail.php?descriptionFileEdit=${descriptionFileEdit.text}&idFile=${data.number_cate}';
 
                                                                 await Dio()
@@ -745,6 +755,7 @@ class _VideoContentState extends State<VideoContent> {
                                       );
                                     },
                                     child: Row(
+                                      //รูปภาพและรายละเอียดของ ไฟล์ที่เกี่ยวข้อง
                                       children: [
                                         Container(
                                           margin: EdgeInsets.all(5),
@@ -810,6 +821,11 @@ class _VideoContentState extends State<VideoContent> {
                                               ),
                                               Text(
                                                 'เวลาอัพโหลด : ${data.datetime_upload}',
+                                                overflow: TextOverflow.ellipsis,
+                                                maxLines: 1,
+                                              ),
+                                              Text(
+                                                'Tags : ${data.Tag}',
                                                 overflow: TextOverflow.ellipsis,
                                                 maxLines: 1,
                                               )
