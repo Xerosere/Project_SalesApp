@@ -156,15 +156,11 @@ class _myContentAreaState extends State<myContentArea> {
                   children: mainCategory.map((data) {
                     return Text(
                       data.name_first,
+                      style:
+                          TextStyle(fontSize: 30, fontWeight: FontWeight.w900),
                     );
                   }).toList(),
                 ),
-                // Container(
-                //     margin: const EdgeInsets.all(50),
-                //     child: TextFormField(
-                //       // decoration: InputDecoration(hintText: 'แก้ไขรายละเอียด'),
-                //       controller: searchdata,
-                //     ))
               ],
             ),
           ),
@@ -174,17 +170,6 @@ class _myContentAreaState extends State<myContentArea> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // ElevatedButton(
-                //     onPressed: () {
-                //       Navigator.push(
-                //           context,
-                //           MaterialPageRoute(
-                //             builder: (context) => PdfScreen(
-                //                 pdfUrl:
-                //                     'https://cdn.syncfusion.com/content/PDFViewer/flutter-succinctly.pdf'),
-                //           ));
-                //     },
-                //     child: Text('data')),
                 Container(
                   //Search
                   margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
@@ -236,10 +221,13 @@ class _myContentAreaState extends State<myContentArea> {
                                           context: context,
                                           builder: (context) => AlertDialog(
                                             title: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(file.name_file),
                                                 Container(
-                                                  height: 20,
+                                                  height: 30,
                                                   child: ElevatedButton(
                                                     onPressed: () {
                                                       String url =
@@ -249,7 +237,9 @@ class _myContentAreaState extends State<myContentArea> {
                                                     child: const Text(
                                                       'Download',
                                                       style: TextStyle(
-                                                          fontSize: 12),
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w900),
                                                     ),
                                                   ),
                                                 ),
@@ -511,7 +501,7 @@ class _myContentAreaState extends State<myContentArea> {
                                               TextButton(
                                                   onPressed: () =>
                                                       Navigator.pop(context),
-                                                  child: Text('Cancel')),
+                                                  child: Text('Back')),
                                               TextButton(
                                                 onPressed: () async {
                                                   showDialog(
@@ -656,166 +646,192 @@ class _myContentAreaState extends State<myContentArea> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        // category2 option
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Container(                             ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ Brand
+                          //   margin: EdgeInsets.only(left: 10),
+                          //   child: Text(
+                          //     '*category 2',
+                          //     style: TextStyle(color: Colors.red),
+                          //   ),
+                          // ),
+                          Container(
+                            // category2 option
 
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        padding: EdgeInsets.all(2.5),
-                        width: 400,
-                        height: 30,
-                        child: Container(
-                          width: 400,
-                          child: DropdownButton<String>(
-                              style: TextStyle(fontSize: 15),
-                              value: currentOption2,
-                              onChanged: (String? newValue) {
-                                currentOption3 = null;
-                                currentOption4 = null;
+                            decoration: BoxDecoration(
+                                border: Border.all(color: Colors.black)),
+                            padding: EdgeInsets.all(2.5),
+                            width: 400,
+                            height: 50,
+                            child: Container(
+                              width: 400,
+                              child: DropdownButton<String>(
+                                  style: TextStyle(fontSize: 15),
+                                  value: currentOption2,
+                                  onChanged: (String? newValue) {
+                                    currentOption3 = null;
+                                    currentOption4 = null;
 
-                                setState(() {
-                                  currentOption2 = newValue!;
-                                  print('$currentOption2');
-                                  currentOption4 = null;
-                                  file_detail_list.clear();
-                                  String apipath =
-                                      'https://btmexpertsales.com/filemanagesys/getfilesec_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2';
-                                  Dio().get(apipath).then((value) {
-                                    print('XAXAXA' '$value');
-                                    print(sent);
-                                    List<dynamic> dataList =
-                                        jsonDecode(value.data);
-                                    for (var data in dataList) {
-                                      FileModel filedetail =
-                                          FileModel.fromMap(data);
-                                      setState(() {
-                                        file_detail_list.add(filedetail);
+                                    setState(() {
+                                      currentOption2 = newValue!;
+                                      print('$currentOption2');
+                                      currentOption4 = null;
+                                      file_detail_list.clear();
+                                      String apipath =
+                                          'https://btmexpertsales.com/filemanagesys/getfilesec_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2';
+                                      Dio().get(apipath).then((value) {
+                                        print('XAXAXA' '$value');
+                                        print(sent);
+                                        List<dynamic> dataList =
+                                            jsonDecode(value.data);
+                                        for (var data in dataList) {
+                                          FileModel filedetail =
+                                              FileModel.fromMap(data);
+                                          setState(() {
+                                            file_detail_list.add(filedetail);
+                                          });
+                                        }
                                       });
-                                    }
-                                  });
+                                    });
+                                  },
+                                  items: second_category_list.map((data) {
+                                    return DropdownMenuItem<String>(
+                                      value: data.name_second,
+                                      child: Text(data.name_second),
+                                    );
+                                  }).toList()),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Container(   ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ type
+                            //   margin: EdgeInsets.only(left: 10),
+                            //   child: Text(
+                            //     '*category 3',
+                            //     style: TextStyle(color: Colors.red),
+                            //   ),
+                            // ),
+                            Container(
+                              // category3 option
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              padding: EdgeInsets.all(2.5),
+                              width: 400,
+                              height: 50,
+                              child: Container(
+                                  width: 400,
+                                  child: DropdownButton<String>(
+                                      value: currentOption3,
+                                      onChanged: (String? newValue) {
+                                        currentOption4 = null;
+                                        setState(() {
+                                          currentOption3 = newValue!;
+                                          file_detail_list.clear();
+                                          String apipath =
+                                              'https://btmexpertsales.com/filemanagesys/getfile3rd_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3';
+                                          Dio().get(apipath).then((value) {
+                                            print('AAAA' '$value');
+                                            print(sent);
 
-                                  // String apipath =
-                                  //     'https://btmexpertsales.com/filemanagesys/get_third_cate_content.php?Getidcate=$sent&&Getidsec=$currentOption2';
-                                  // Dio().get(apipath).then((value) {
-                                  //   print('thirdDropdown' + '$value');
-                                  //   for (var data in jsonDecode(value.data)) {
-                                  //     Third_category third_category =
-                                  //         Third_category.fromMap(data);
-                                  //     setState(() {
-                                  //       third_category_list
-                                  //           .add(third_category);
-                                  //       print(third_category);
-                                  //       print('category33'
-                                  //           '$third_category_list');
-                                  //     });
-                                  //   }
-                                  // });
-                                });
-                              },
-                              items: second_category_list.map((data) {
-                                return DropdownMenuItem<String>(
-                                  value: data.name_second,
-                                  child: Text(data.name_second),
-                                );
-                              }).toList()),
+                                            jsonDecode(value.data)
+                                                .forEach((data) {
+                                              FileModel filedetail =
+                                                  FileModel.fromMap(data);
+                                              setState(() {
+                                                file_detail_list
+                                                    .add(filedetail);
+                                              });
+                                            });
+                                          });
+                                        });
+                                      },
+                                      items: third_category_list
+                                          .where((data) =>
+                                              data.IDcategory_first == sent &&
+                                              data.IDcategory_second ==
+                                                  currentOption2) // กรองข้อมูลเฉพาะที่มี id_category เท่ากับ currentOption
+                                          .map((data) {
+                                        return DropdownMenuItem<String>(
+                                          value: data.name_third,
+                                          child: Text(data.name_third),
+                                        );
+                                      }).toList())),
+                            ),
+                          ],
                         ),
                       ),
                       Container(
-                        // category3 option
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        padding: EdgeInsets.all(2.5),
-                        width: 400,
-                        height: 30,
-                        child: Container(
-                            width: 400,
-                            child: DropdownButton<String>(
-                                value: currentOption3,
-                                onChanged: (String? newValue) {
-                                  currentOption4 = null;
-                                  setState(() {
-                                    currentOption3 = newValue!;
-                                    file_detail_list.clear();
-                                    String apipath =
-                                        'https://btmexpertsales.com/filemanagesys/getfile3rd_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3';
-                                    Dio().get(apipath).then((value) {
-                                      print('AAAA' '$value');
-                                      print(sent);
+                        margin: EdgeInsets.only(left: 15),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // Container(     ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ model
+                            //   margin: EdgeInsets.only(left: 10),
+                            //   child: Text(
+                            //     '*category 4',
+                            //     style: TextStyle(color: Colors.red),
+                            //   ),
+                            // ),
+                            Container(
+                              // category4 option
+                              decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.black)),
+                              padding: EdgeInsets.all(2.5),
+                              width: 400,
+                              height: 50,
+                              child: Container(
+                                width: 400,
+                                child: DropdownButton<String>(
+                                    value: currentOption4,
+                                    onChanged: (String? newValue) {
+                                      setState(() {
+                                        currentOption4 = newValue!;
+                                        print("OP4" + '$currentOption4');
+                                        file_detail_list.clear();
+                                        String apipath =
+                                            'https://btmexpertsales.com/filemanagesys/getfile4th_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3&&file_fourth_cate=$currentOption4';
+                                        Dio().get(apipath).then((value) {
+                                          print('AAAA' '$value');
+                                          print(sent);
 
-                                      jsonDecode(value.data).forEach((data) {
-                                        FileModel filedetail =
-                                            FileModel.fromMap(data);
-                                        setState(() {
-                                          file_detail_list.add(filedetail);
+                                          jsonDecode(value.data)
+                                              .forEach((data) {
+                                            FileModel filedetail =
+                                                FileModel.fromMap(data);
+                                            setState(() {
+                                              file_detail_list.add(filedetail);
+                                            });
+                                          });
                                         });
                                       });
-                                    });
-                                  });
-                                },
-                                items: third_category_list
-                                    .where((data) =>
-                                        data.IDcategory_first == sent &&
-                                        data.IDcategory_second ==
-                                            currentOption2) // กรองข้อมูลเฉพาะที่มี id_category เท่ากับ currentOption
-                                    .map((data) {
-                                  return DropdownMenuItem<String>(
-                                    value: data.name_third,
-                                    child: Text(data.name_third),
-                                  );
-                                }).toList())),
-                      ),
-                      Container(
-                        // category4 option
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.black)),
-                        padding: EdgeInsets.all(2.5),
-                        width: 400,
-                        height: 30,
-                        child: Container(
-                          width: 400,
-                          child: DropdownButton<String>(
-                              style: TextStyle(fontSize: 20),
-                              value: currentOption4,
-                              onChanged: (String? newValue) {
-                                setState(() {
-                                  currentOption4 = newValue!;
-                                  print("OP4" + '$currentOption4');
-                                  file_detail_list.clear();
-                                  String apipath =
-                                      'https://btmexpertsales.com/filemanagesys/getfile4th_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3&&file_fourth_cate=$currentOption4';
-                                  Dio().get(apipath).then((value) {
-                                    print('AAAA' '$value');
-                                    print(sent);
-
-                                    jsonDecode(value.data).forEach((data) {
-                                      FileModel filedetail =
-                                          FileModel.fromMap(data);
-                                      setState(() {
-                                        file_detail_list.add(filedetail);
-                                      });
-                                    });
-                                  });
-                                });
-                              },
-                              items: fourth_category_list
-                                  .where((data) =>
-                                      data.IDcategory_first == sent &&
-                                      data.IDcategory_second ==
-                                          currentOption2 &&
-                                      data.IDcategory_third ==
-                                          currentOption3) // กรองข้อมูลเฉพาะที่มี id_category เท่ากับ currentOption
-                                  .map((data) {
-                                return DropdownMenuItem<String>(
-                                  value: data.name_fourth,
-                                  child: Text(data.name_fourth),
-                                );
-                              }).toList()),
+                                    },
+                                    items: fourth_category_list
+                                        .where((data) =>
+                                            data.IDcategory_first == sent &&
+                                            data.IDcategory_second ==
+                                                currentOption2 &&
+                                            data.IDcategory_third ==
+                                                currentOption3) // กรองข้อมูลเฉพาะที่มี id_category เท่ากับ currentOption
+                                        .map((data) {
+                                      return DropdownMenuItem<String>(
+                                        value: data.name_fourth,
+                                        child: Text(data.name_fourth),
+                                      );
+                                    }).toList()),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-
                 SingleChildScrollView(
                     child: Container(
                         //content
@@ -853,18 +869,10 @@ class _myContentAreaState extends State<myContentArea> {
                                           width: screensize,
                                           child: Container(
                                             child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
-                                                Container(
-                                                  child: const Text(
-                                                    'ชื่อไฟล์        : ',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 16,
-                                                    ),
-                                                    textAlign: TextAlign.start,
-                                                  ),
-                                                ),
                                                 Tooltip(
                                                   message: "${data.name_file}",
                                                   child: ConstrainedBox(
@@ -886,7 +894,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                 Container(
                                                   height: 20,
                                                   constraints: BoxConstraints(
-                                                      maxWidth: 200),
+                                                      minHeight: 35),
                                                   child: ElevatedButton(
                                                     onPressed: () {
                                                       String url =
@@ -896,7 +904,9 @@ class _myContentAreaState extends State<myContentArea> {
                                                     child: const Text(
                                                       'Download',
                                                       style: TextStyle(
-                                                          fontSize: 12),
+                                                          fontSize: 17,
+                                                          fontWeight:
+                                                              FontWeight.w900),
                                                     ),
                                                   ),
                                                 ),
@@ -1167,7 +1177,7 @@ class _myContentAreaState extends State<myContentArea> {
                                           TextButton(
                                               onPressed: () =>
                                                   Navigator.pop(context),
-                                              child: Text('Cancel')),
+                                              child: Text('Back')),
                                           TextButton(
                                             onPressed: () async {
                                               showDialog(

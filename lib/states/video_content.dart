@@ -92,77 +92,112 @@ class _VideoContentState extends State<VideoContent> {
         body: SingleChildScrollView(
           child: Row(
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    // แสดงวิดีโอ
-                    margin: EdgeInsets.fromLTRB(20, 20, 20, 0),
-                    child: SizedBox(
-                      width: 800,
-                      height: 400,
-                      child: YoutubePlayerIFrame(
-                        controller: _controller,
-                        aspectRatio: 16 / 9,
+              Container(
+                height: screensizeHeight * 0.85,
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: 800,
+                        height: 400,
+                        // แสดงวิดีโอ
+                        margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                        child: YoutubePlayerIFrame(
+                          controller: _controller,
+                          aspectRatio: 16 / 9,
+                        ),
                       ),
-                    ),
+                      SizedBox(height: 20),
+                      for (var data in video_detail_list)
+                        // แสดงรายละเอียดวิดีโอ
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              //ชื่อ
+                              margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                              child: Text(
+                                '${data.name_file}',
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              // รายละเอียด
+                              margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                              width: 800,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'รายละเอียด :',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                  Text(
+                                    '${data.description_file}',
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      overflow: TextOverflow.visible,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              // ผู้อัพโหลด
+                              margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    'ผู้อัพโหลด : ',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                  Text(
+                                    '${data.user_name}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              // tag
+                              margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
+                              child: Row(
+                                children: [
+                                  const Text(
+                                    'Tags : ',
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w900),
+                                  ),
+                                  Text(
+                                    '${data.Tag}',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
-                  SizedBox(height: 20),
-                  for (var data in video_detail_list)
-                    // แสดงรายละเอียดวิดีโอ
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          //ชื่อ
-                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                          child: Text(
-                            '${data.name_file}',
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // รายละเอียด
-                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                          width: 800,
-                          child: Text(
-                            '${data.description_file}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              overflow: TextOverflow.visible,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // ผู้อัพโหลด
-                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                          child: Text(
-                            '${data.user_name}',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          // tag
-                          margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                          child: Text(
-                            '${data.Tag}',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                ],
+                ),
               ),
               Container(
                   // ไฟล์ที่เกี่ยวข้อง
-                  height: screensizeHeight * 0.8,
+                  height: screensizeHeight * 0.9,
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Colors.black,
@@ -439,8 +474,6 @@ class _VideoContentState extends State<VideoContent> {
                                                         String fileUrl =
                                                             'https://btmexpertsales.com/filemanagesys/file/${data.name_file}';
                                                         launch(fileUrl);
-                                                        print(
-                                                            '5555555555555 ${data.name_file}');
                                                       }
                                                     },
                                                     child: Stack(
@@ -675,7 +708,7 @@ class _VideoContentState extends State<VideoContent> {
                                             TextButton(
                                                 onPressed: () =>
                                                     Navigator.pop(context),
-                                                child: Text('Cancel')),
+                                                child: Text('Back')),
                                             TextButton(
                                               //ปุ่ม Edit ข้อมูลไฟล์ สามารถแก้ไขได้แค่Description file
                                               onPressed: () async {

@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         toolbarHeight: 100,
         title: const Text(
-          'Sale knowles Center',
+          'Sales Knowledge Center',
           style: TextStyle(fontSize: 50),
         ),
         backgroundColor: const Color.fromARGB(255, 235, 10, 30),
@@ -114,7 +114,7 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               width: screensize,
               height: screensizeHeight,
-              color: Color.fromARGB(255, 184, 183, 183),
+              color: Color.fromARGB(255, 255, 255, 255),
               child: Column(
                 children: [
                   Container(
@@ -170,10 +170,13 @@ class _HomePageState extends State<HomePage> {
                                             context: context,
                                             builder: (context) => AlertDialog(
                                               title: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Text(file.name_file),
                                                   Container(
-                                                    height: 20,
+                                                    height: 30,
                                                     child: ElevatedButton(
                                                       onPressed: () {
                                                         String url =
@@ -183,7 +186,10 @@ class _HomePageState extends State<HomePage> {
                                                       child: const Text(
                                                         'Download',
                                                         style: TextStyle(
-                                                            fontSize: 12),
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w900),
                                                       ),
                                                     ),
                                                   ),
@@ -421,11 +427,10 @@ class _HomePageState extends State<HomePage> {
                                                                     0,
                                                                     10,
                                                                     0),
-                                                            width: 120,
                                                             child: Row(
                                                               children: [
                                                                 const Text(
-                                                                  'File ID : ',
+                                                                  'Tag: ',
                                                                   style: TextStyle(
                                                                       fontWeight:
                                                                           FontWeight
@@ -434,7 +439,7 @@ class _HomePageState extends State<HomePage> {
                                                                           16),
                                                                 ),
                                                                 Text(
-                                                                    "${file.number_cate}"),
+                                                                    "${file.Tag}"),
                                                               ],
                                                             ),
                                                           ),
@@ -448,7 +453,7 @@ class _HomePageState extends State<HomePage> {
                                                 TextButton(
                                                     onPressed: () =>
                                                         Navigator.pop(context),
-                                                    child: Text('Cancel')),
+                                                    child: Text('Back')),
                                                 TextButton(
                                                   //แก้ไขรายละเอียดไฟล์
                                                   onPressed: () async {
@@ -617,7 +622,7 @@ class _HomePageState extends State<HomePage> {
                                               BorderRadius.circular(10),
                                         ),
                                         backgroundColor:
-                                            Color.fromARGB(149, 0, 0, 0),
+                                            Color.fromARGB(0, 0, 0, 0),
                                       ),
                                       onPressed: () {
                                         Navigator.push(context,
@@ -657,33 +662,41 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ),
                                   ),
+                                  //----------------------------------------------------------------------------------
                                   Stack(
                                     children: [
                                       Container(
+                                        width: 495,
+                                        height: 243,
                                         margin:
                                             EdgeInsets.fromLTRB(0, 10, 0, 0),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.all(
+                                              Radius.circular(8)),
+                                          image: DecorationImage(
+                                            image: AssetImage(
+                                                myconstant.aliedproduct),
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
                                         child: ElevatedButton(
                                           style: ElevatedButton.styleFrom(
-                                            foregroundColor:
-                                                const Color.fromARGB(
-                                                    255, 0, 0, 0),
-                                            backgroundColor: Color.fromARGB(
-                                                255, 255, 255, 255),
-                                            minimumSize: Size(500, 250),
-                                            maximumSize: Size(500, 250),
+                                            foregroundColor: Colors.white,
+                                            minimumSize: Size(450, 250),
                                             shape: RoundedRectangleBorder(
                                               borderRadius:
                                                   BorderRadius.circular(10),
                                             ),
+                                            backgroundColor:
+                                                Color.fromARGB(0, 0, 0, 0),
                                           ),
                                           onPressed: () {
                                             Navigator.push(context,
                                                 MaterialPageRoute(
-                                              builder: (context) {
-                                                return const myContentArea(
-                                                    idref: 'Allied Product');
-                                              },
-                                            )).then((result) {
+                                                    builder: (context) {
+                                              return const myContentArea(
+                                                  idref: 'Allied Product');
+                                            })).then((result) {
                                               currentOption2 = null;
                                               currentOption3 = null;
                                               currentOption4 = null;
@@ -703,9 +716,9 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                               ),
                                               Text(
-                                                "เอกสารเกี่ยวกับ Solutions ต่างๆของทางบริษัท TMHWS",
+                                                "เอกสารเกี่ยวกับ Solutions ต่างๆของทางบริษัท TMHWST",
                                                 style: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 20,
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                                 textAlign: TextAlign.start,
@@ -715,11 +728,11 @@ class _HomePageState extends State<HomePage> {
                                         ),
                                       ),
                                       Positioned(
-                                        top: 20,
+                                        top: 15,
                                         left: 30,
                                         child: Container(
-                                          width: 80,
-                                          height: 80,
+                                          width: 70,
+                                          height: 65,
                                           decoration: BoxDecoration(
                                             image: DecorationImage(
                                               image: AssetImage(
@@ -731,6 +744,7 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                     ],
                                   ),
+                                  //----------------------------------------------------------
                                 ])),
                               ),
                               Container(
@@ -748,28 +762,40 @@ class _HomePageState extends State<HomePage> {
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
                                                         15, 0, 0, 5),
-                                                decoration: const BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(8)),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(myconstant
+                                                        .artworkbutton),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 child: ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
-                                                    foregroundColor:
-                                                        const Color.fromARGB(
-                                                            255, 0, 0, 0),
-                                                    minimumSize: Size(450, 250),
-                                                    shape:
-                                                        RoundedRectangleBorder(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
-                                                    ),
-                                                    backgroundColor:
-                                                        Color.fromARGB(
-                                                            255, 255, 255, 255),
-                                                  ),
+                                                          foregroundColor:
+                                                              Color.fromARGB(
+                                                                  255,
+                                                                  255,
+                                                                  255,
+                                                                  255),
+                                                          minimumSize:
+                                                              Size(450, 250),
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        10),
+                                                          ),
+                                                          backgroundColor:
+                                                              Color.fromARGB(
+                                                                  0,
+                                                                  255,
+                                                                  255,
+                                                                  255)),
                                                   onPressed: () {
                                                     Navigator.push(context,
                                                         MaterialPageRoute(
@@ -835,17 +861,22 @@ class _HomePageState extends State<HomePage> {
                                                 margin:
                                                     const EdgeInsets.fromLTRB(
                                                         15, 0, 0, 5),
-                                                decoration: const BoxDecoration(
+                                                decoration: BoxDecoration(
                                                   borderRadius:
                                                       BorderRadius.all(
                                                           Radius.circular(8)),
+                                                  image: DecorationImage(
+                                                    image: AssetImage(myconstant
+                                                        .promotionbutton),
+                                                    fit: BoxFit.cover,
+                                                  ),
                                                 ),
                                                 child: ElevatedButton(
                                                   style:
                                                       ElevatedButton.styleFrom(
                                                     foregroundColor:
-                                                        const Color.fromARGB(
-                                                            255, 0, 0, 0),
+                                                        Color.fromARGB(
+                                                            255, 255, 255, 255),
                                                     minimumSize: Size(450, 250),
                                                     shape:
                                                         RoundedRectangleBorder(
@@ -855,7 +886,7 @@ class _HomePageState extends State<HomePage> {
                                                     ),
                                                     backgroundColor:
                                                         Color.fromARGB(
-                                                            255, 255, 255, 255),
+                                                            0, 255, 255, 255),
                                                   ),
                                                   onPressed: () {
                                                     Navigator.push(context,
@@ -929,8 +960,7 @@ class _HomePageState extends State<HomePage> {
                                         decoration: BoxDecoration(
                                           borderRadius:
                                               BorderRadius.circular(10),
-                                          color: Color.fromARGB(
-                                              255, 255, 255, 255),
+                                          color: Color.fromARGB(255, 0, 0, 0),
                                         ),
                                         child: Row(
                                           children: [
@@ -953,7 +983,12 @@ class _HomePageState extends State<HomePage> {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                               foregroundColor:
-                                                                  Colors.white,
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      0,
+                                                                      0,
+                                                                      0),
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -962,12 +997,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  const Color
+                                                                  Color
                                                                       .fromARGB(
-                                                                      50,
-                                                                      163,
-                                                                      163,
-                                                                      163)),
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -987,7 +1022,7 @@ class _HomePageState extends State<HomePage> {
                                                           Container(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    top: 100),
+                                                                    top: 130),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
@@ -1034,8 +1069,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top: -15,
-                                                  left: 50,
+                                                  top: 0,
+                                                  left: 60,
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(context,
@@ -1084,7 +1119,12 @@ class _HomePageState extends State<HomePage> {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                               foregroundColor:
-                                                                  Colors.white,
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      0,
+                                                                      0,
+                                                                      0),
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -1095,10 +1135,10 @@ class _HomePageState extends State<HomePage> {
                                                               backgroundColor:
                                                                   Color
                                                                       .fromARGB(
-                                                                          50,
-                                                                          163,
-                                                                          163,
-                                                                          163)),
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1118,7 +1158,7 @@ class _HomePageState extends State<HomePage> {
                                                           Container(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    top: 100),
+                                                                    top: 130),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
@@ -1165,8 +1205,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top: -15,
-                                                  left: 50,
+                                                  top: 0,
+                                                  left: 55,
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(context,
@@ -1217,7 +1257,12 @@ class _HomePageState extends State<HomePage> {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                               foregroundColor:
-                                                                  Colors.white,
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      0,
+                                                                      0,
+                                                                      0),
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -1226,12 +1271,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  const Color
+                                                                  Color
                                                                       .fromARGB(
-                                                                      50,
-                                                                      163,
-                                                                      163,
-                                                                      163)),
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1249,7 +1294,7 @@ class _HomePageState extends State<HomePage> {
                                                       child: Container(
                                                         padding:
                                                             EdgeInsets.only(
-                                                                top: 45),
+                                                                top: 75),
                                                         child: Column(
                                                           children: [
                                                             Container(
@@ -1306,8 +1351,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top: -15,
-                                                  left: 50,
+                                                  top: 0,
+                                                  left: 55,
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(context,
@@ -1356,7 +1401,12 @@ class _HomePageState extends State<HomePage> {
                                                       style: ElevatedButton
                                                           .styleFrom(
                                                               foregroundColor:
-                                                                  Colors.white,
+                                                                  const Color
+                                                                      .fromARGB(
+                                                                      255,
+                                                                      0,
+                                                                      0,
+                                                                      0),
                                                               shape:
                                                                   RoundedRectangleBorder(
                                                                 borderRadius:
@@ -1365,12 +1415,12 @@ class _HomePageState extends State<HomePage> {
                                                                             10),
                                                               ),
                                                               backgroundColor:
-                                                                  const Color
+                                                                  Color
                                                                       .fromARGB(
-                                                                      50,
-                                                                      163,
-                                                                      163,
-                                                                      163)),
+                                                                          255,
+                                                                          255,
+                                                                          255,
+                                                                          255)),
                                                       onPressed: () {
                                                         Navigator.push(context,
                                                             MaterialPageRoute(
@@ -1390,7 +1440,7 @@ class _HomePageState extends State<HomePage> {
                                                           Container(
                                                             padding:
                                                                 EdgeInsets.only(
-                                                                    top: 100),
+                                                                    top: 130),
                                                             alignment: Alignment
                                                                 .center,
                                                             child: const Text(
@@ -1437,8 +1487,8 @@ class _HomePageState extends State<HomePage> {
                                                   ),
                                                 ),
                                                 Positioned(
-                                                  top: -7,
-                                                  left: 50,
+                                                  top: 15,
+                                                  left: 55,
                                                   child: GestureDetector(
                                                     onTap: () {
                                                       Navigator.push(context,

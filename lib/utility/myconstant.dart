@@ -7,7 +7,6 @@ class myconstant {
   static String routeContent = '/myContentArea';
   static String routeVideoContent = '/video_content';
 
-
   static String buttonpresentbg = 'images/buttonpresentbg.jpg';
   static String buttonproductbg = 'images/productbg.png';
   static String buttonpicturebg = 'images/buttonpicturebg.png';
@@ -24,14 +23,12 @@ class myconstant {
   static String xlsxicon = 'images/XLSX_file_icon.png';
   static String zipicon = 'images/ZIP_file_icon.png';
   static String playicon = 'images/playicon.png';
-
+  static String aliedproduct = 'images/aliedproduct.png';
   static String backgroundUpload = 'images/backgroundUploadFile.png';
   static String bg = 'images/bg.jpg';
+  static String artworkbutton = 'images/artworkbutton.png';
 
-
-
-
-
+  static String promotionbutton = 'images/promotionbutton.png';
 
   static String pdfbor = 'images/C3E.pdf';
 }

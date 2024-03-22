@@ -339,7 +339,7 @@ class _UploadHomeState extends State<UploadHome> {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              margin: EdgeInsets.all(20),
+                              margin: EdgeInsets.fromLTRB(20, 50, 20, 20),
                               width: 200,
                               height: 50,
                               decoration: BoxDecoration(
@@ -353,7 +353,7 @@ class _UploadHomeState extends State<UploadHome> {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              margin: EdgeInsets.all(20),
+                              margin: EdgeInsets.fromLTRB(20, 50, 20, 20),
                               width: 200,
                               height: 50,
                               child: upLoadLinkYoutube(context), //ปุ่มอัพลิ้งค์
@@ -1308,7 +1308,6 @@ class _UploadHomeState extends State<UploadHome> {
               ],
             ),
           ),
-
           Container(
             margin: EdgeInsets.all(20),
             //category 3
@@ -1754,7 +1753,8 @@ class _UploadHomeState extends State<UploadHome> {
                   child: IconButton(
                     onPressed: () {
                       if (currentOption3 == null) {
-                        // ต้องเลือก category 1 ก่อนถึงจะเพิ่ม category 3 ได้
+                        // ต้องเลือก category 3 ที่จะลบก่อน
+
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('กรุณาเลือก Category 3 ที่จะลบ'),
@@ -1778,12 +1778,7 @@ class _UploadHomeState extends State<UploadHome> {
                                     String
                                         apipath = //ลบthird_cateที่เลือกออกจากฐานข้อมูล
                                         'https://btmexpertsales.com/filemanagesys/delete_third_cate.php?Namecategory_first=${currentOption}&&Namecategory_second=${currentOption2}&&Namecategory_third=${currentOption3}';
-                                    Dio().get(apipath).then((value) {
-                                      print(value);
-                                      print('cate1$currentOption');
-                                      print('cate2$currentOption2');
-                                      print('cate3$currentOption3');
-                                    });
+                                    Dio().get(apipath).then((value) {});
                                     third_category_list.clear();
                                     String
                                         apipath2 = //โหลดthird_cat ใหม่ เพื่อให้ข้อมูลอัพเดท
@@ -1845,10 +1840,6 @@ class _UploadHomeState extends State<UploadHome> {
                                         Dio()
                                             .post(apipath4, data: formData2)
                                             .then((response) {
-                                          print(
-                                              'Uploaded file: ${filedetail.name_file}');
-                                          print(
-                                              'Uploaded file3: ${currentOption3}');
                                           // Handle response if necessary
                                         }).catchError((error) {
                                           print(
@@ -1920,7 +1911,7 @@ class _UploadHomeState extends State<UploadHome> {
                                 data.IDcategory_first == currentOption &&
                                 data.IDcategory_second == currentOption2 &&
                                 data.IDcategory_third ==
-                                    currentOption3) // กรองข้อมูลเฉพาะที่มี id_category เท่ากับ currentOption
+                                    currentOption3) // กรองข้อมูลเฉพาะที่เป็นหมวดหมู่ย่อยของ currentOption3ที่เลือก
                             .map((data) {
                           return DropdownMenuItem<String>(
                             value: data.name_fourth,
@@ -1929,7 +1920,6 @@ class _UploadHomeState extends State<UploadHome> {
                         }).toList())),
                 Container(
                   //EditNameCategory4
-                  // width: 55,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(
@@ -1938,6 +1928,7 @@ class _UploadHomeState extends State<UploadHome> {
                     ),
                     onPressed: () {
                       if (currentOption4 == null) {
+                        //ต้องเลือกหมวดหมู่ที่จะแก้ไขก่อน
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('กรุณาเลือกหมวดหมู่ที่จะแก้ไข'),
@@ -1950,7 +1941,7 @@ class _UploadHomeState extends State<UploadHome> {
                             return StatefulBuilder(
                               builder: (context, setState) {
                                 return AlertDialog(
-                                  title: Text('Fourth Third'),
+                                  title: Text('Edit Fourth"$currentOption4"'),
                                   content: Container(
                                     width: 500,
                                     child: TextFormField(
@@ -1963,7 +1954,8 @@ class _UploadHomeState extends State<UploadHome> {
                                         hintText:
                                             'Edit Name Category (a-z,A-Z,0-9,_,  )',
                                       ),
-                                      controller: editnameFourth,
+                                      controller:
+                                          editnameFourth, //รับค่าที่จะไปแก้ไข category4
                                     ),
                                   ),
                                   actions: [
@@ -2029,6 +2021,7 @@ class _UploadHomeState extends State<UploadHome> {
                                             return;
                                           }
 
+                                          //ถ้าชื่อไม่ซ้ำจะอัพเดทชื่อ category4 ในtabel: filemanage_thirdcategory
                                           String apipath = // Edit name cate 4
                                               'https://btmexpertsales.com/filemanagesys/edit_name_4th_cate.php?edit_name_fourth=${editnameFourth.text}&&Namecategory_second=${currentOption2}&&Namecategory_first=${currentOption}&&Namecategory_third=${currentOption3}&&Namecategory_fourth=${currentOption4}';
                                           await Dio()
@@ -2037,6 +2030,7 @@ class _UploadHomeState extends State<UploadHome> {
                                             print(value);
                                           });
 
+                                          //ถ้าชื่อไม่ซ้ำจะอัพเดทชื่อ category4 ในข้อมูลไฟล์ทุกข้อมูลที่อยู่ใน category4 อันเดิม
                                           String
                                               apipath2 = // Edit name cate 4 in file
                                               'https://btmexpertsales.com/filemanagesys/edit_name_4th_file.php?edit_name_fourth=${editnameFourth.text}&&Namecategory_second=${currentOption2}&&Namecategory_first=${currentOption}&&Namecategory_third=${currentOption3}&&Namecategory_fourth=${currentOption4}';
@@ -2051,12 +2045,6 @@ class _UploadHomeState extends State<UploadHome> {
                                               apipath3 = //โหลดfourth_cat ใหม่ เพื่อให้ข้อมูลอัพเดท
                                               'https://btmexpertsales.com/filemanagesys/get_all_fourth_category.php';
                                           Dio().get(apipath3).then((value) {
-                                            print(value);
-                                            print(currentOption);
-                                            print(currentOption2);
-                                            print(currentOption3);
-                                            print(
-                                                'sssssssssdqsqd1s$currentOption4');
                                             for (var data
                                                 in jsonDecode(value.data)) {
                                               FourthCategory fourthCateDetail =
@@ -2070,18 +2058,8 @@ class _UploadHomeState extends State<UploadHome> {
                                           });
 
                                           Navigator.pop(context);
-                                          AlertEditSuccessful(context);
-
-// อัพเดท dropdown หลังจากอัพเดทข้อมูลใน fourth_category_list
-                                          setState(() {
-                                            print(
-                                                'XXXXXXXXXXXXXXXXXXXXXXXXXXX');
-                                            print(currentOption);
-                                            print(currentOption4);
-                                            print(currentOption3);
-                                            print(currentOption4);
-                                          });
-                                          // Update UI after editing
+                                          AlertEditSuccessful(
+                                              context); //แจ้งเตือนแก้ไขเสร็จสิ้น
                                         } else {
                                           // กรณีที่ข้อมูลว่างเปล่า
                                           showDialog(
@@ -2151,6 +2129,7 @@ class _UploadHomeState extends State<UploadHome> {
                     ),
                     onPressed: () {
                       if (currentOption3 == null) {
+                        //ต้องเลือกหมวดหมู่ที่ 3 ก่อน
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('กรุณาเลือกหมวดหมู่ที่สาม'),
@@ -2176,7 +2155,8 @@ class _UploadHomeState extends State<UploadHome> {
                                         hintText:
                                             'Add a new category (a-z,A-Z,0-9,_, )',
                                       ),
-                                      controller: addfourthCate,
+                                      controller:
+                                          addfourthCate, //รับค่าที่ต้องการให้เป็นชื่อหมวดหมู่ใหม่
                                     ),
                                   ),
                                   actions: [
@@ -2198,18 +2178,18 @@ class _UploadHomeState extends State<UploadHome> {
                                                   item.name_fourth ==
                                                       addNewFouthCategory);
                                           if (nameExists) {
+                                            // Check if the new name already exists
+
                                             Navigator.pop(context);
                                             showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  backgroundColor: Colors
-                                                      .white, // Set background color
+                                                  backgroundColor: Colors.white,
                                                   title: const Text(
                                                     'ERROR',
                                                     style: TextStyle(
-                                                      color: Colors
-                                                          .red, // Set title text color
+                                                      color: Colors.red,
                                                       fontWeight:
                                                           FontWeight.bold,
                                                       fontSize: 18,
@@ -2219,10 +2199,7 @@ class _UploadHomeState extends State<UploadHome> {
                                                     'Name already exists!!!',
                                                     style: TextStyle(
                                                       color: Color.fromARGB(
-                                                          255,
-                                                          0,
-                                                          0,
-                                                          0), // Set content text color
+                                                          255, 0, 0, 0),
                                                       fontSize: 16,
                                                     ),
                                                   ),
@@ -2234,8 +2211,7 @@ class _UploadHomeState extends State<UploadHome> {
                                                       child: const Text(
                                                         'Confirm',
                                                         style: TextStyle(
-                                                          color: Colors
-                                                              .blue, // Set button text color
+                                                          color: Colors.blue,
                                                         ),
                                                       ),
                                                     ),
@@ -2248,6 +2224,7 @@ class _UploadHomeState extends State<UploadHome> {
                                             return; // Stop further execution
                                           }
 
+//นำค่าที่รับมาไปเพิ่มหมวดหมู่ 4
                                           String apipath =
                                               'https://btmexpertsales.com/filemanagesys/insert_fourth_category.php?name_fourth=${addfourthCate.text}&&IDcategory_first=${currentOption}&&IDcategory_second=${currentOption2}&&IDcategory_third=${currentOption3}';
                                           await Dio()
@@ -2260,6 +2237,7 @@ class _UploadHomeState extends State<UploadHome> {
                                           AlertAddSuccessful(context);
 
                                           fourth_category_list.clear();
+                                          // รับข้อมูลหมวดหมู่ 4 ใหม่เพื่ออัพเดทข้อมูล
                                           String apipath2 =
                                               'https://btmexpertsales.com/filemanagesys/get_all_fourth_category.php';
                                           await Dio()
@@ -2340,6 +2318,7 @@ class _UploadHomeState extends State<UploadHome> {
                       if (currentOption4 == null) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
+                            //ต้องเลือกcate4ที่จะลบก่อน
                             content: Text('กรุณาเลือก Category 4 ที่จะลบ'),
                           ),
                         );
@@ -2362,23 +2341,12 @@ class _UploadHomeState extends State<UploadHome> {
                                     String
                                         apipath = //ลบfourth_cateออกจากฐานข้อมูล
                                         'https://btmexpertsales.com/filemanagesys/delete_fourth_cate.php?Namecategory_second=${currentOption2}&&Namecategory_first=${currentOption}&&Namecategory_third=${currentOption3}&&Namecategory_fourth=${currentOption4}';
-                                    Dio().get(apipath).then((value) {
-                                      print(value);
-                                      print(currentOption);
-                                      print(currentOption2);
-                                      print(currentOption3);
-                                      print(currentOption4);
-                                    });
+                                    Dio().get(apipath).then((value) {});
                                     fourth_category_list.clear();
                                     String
                                         apipath2 = //โหลดfourth_cat ใหม่ เพื่อให้ข้อมูลอัพเดท
                                         'https://btmexpertsales.com/filemanagesys/get_all_fourth_category.php';
                                     Dio().get(apipath2).then((value) {
-                                      print(value);
-                                      print(currentOption);
-                                      print(currentOption2);
-                                      print(currentOption3);
-                                      print('sssssssssdqsqd1s$currentOption4');
                                       for (var data in jsonDecode(value.data)) {
                                         FourthCategory fourthCateDetail =
                                             FourthCategory.fromMap(data);
@@ -2392,7 +2360,7 @@ class _UploadHomeState extends State<UploadHome> {
 
                                     file_detail_list.clear();
                                     String
-                                        apipath3 = //ดึงข้อมูลใน fourth_cat ที่ลบไป
+                                        apipath3 = //ดึงข้อมูลไฟล์ที่อยู่ใน category4
                                         'https://btmexpertsales.com/filemanagesys/getfile4th_change.php?file_first_cate=${currentOption}&file_second_cate=${currentOption2}&file_third_cate=${currentOption3}&file_fourth_cate=${currentOption4}';
 
                                     Dio().get(apipath3).then((value) {
@@ -2450,7 +2418,8 @@ class _UploadHomeState extends State<UploadHome> {
                                         });
                                       }
 
-                                      String apipath2 =
+                                      String
+                                          apipath2 = //ลบข้อมูลในฐานข้อมูลที่ IDcategory_fourth==fourth_cat
                                           'https://btmexpertsales.com/filemanagesys/delete_fourth_detail.php?IDcategory_second=${currentOption2}&IDcategory_first=${currentOption}&IDcategory_third=${currentOption3}&IDcategory_fourth=${currentOption4}';
                                       Dio().get(apipath2).then((value) {
                                         print(value);
@@ -2478,10 +2447,9 @@ class _UploadHomeState extends State<UploadHome> {
               ],
             ),
           ),
-
-// เพิ่มระยะห่างระหว่างปุ่มและ TextFormField
           Container(
-              width: 700, // ทำให้ TextFormField มีความกว้างเต็มพื้นที่
+              //เพิ่มTag
+              width: 700,
               child: Column(
                 children: [
                   TextFormField(
@@ -2504,6 +2472,7 @@ class _UploadHomeState extends State<UploadHome> {
                         icon: Icon(Icons.add),
                         onPressed: () {
                           showDialog(
+                            //ปุ่ม + ด้านหลังกล่องSearch tags
                             context: context,
                             builder: (BuildContext context) {
                               return AlertDialog(
@@ -2523,14 +2492,15 @@ class _UploadHomeState extends State<UploadHome> {
                                   ),
                                   ElevatedButton(
                                     onPressed: () {
-                                      var apipath =
+                                      var apipath = //เพิ่มtagในฐานข้อมูล
                                           'https://www.btmexpertsales.com/filemanagesys/insert_tag_detail.php?name_tag=${addTag.text}';
                                       Dio().get(apipath).then((response) {
                                         print('Response: $response');
 
                                         setState(() {
                                           tag_list.clear();
-                                          String apipath =
+                                          String
+                                              apipath = //โหลดข้อมูล tag และ แสดง
                                               'https://btmexpertsales.com/filemanagesys/get_detail_tag.php';
                                           Dio().get(apipath).then((value) {
                                             for (var data
@@ -2578,7 +2548,8 @@ class _UploadHomeState extends State<UploadHome> {
                   Container(
                     margin: EdgeInsets.fromLTRB(0, 10, 0, 0),
                     child: Visibility(
-                      visible: _selectedTags.isEmpty,
+                      visible: _selectedTags
+                          .isEmpty, //ถ้าข้อมูลที่ป้อนและข้อมูลTag ในฐานข้อมูลไม่ตรงกัน
                       child: Text(
                         "ไม่มี Tag ที่ต้องการ (สามารถเพิ่ม Tag โดยคลิกที่เครื่องหมาย + ที่ช่อง Search Tag)",
                         style: TextStyle(color: Colors.red),
@@ -2587,6 +2558,7 @@ class _UploadHomeState extends State<UploadHome> {
                   ),
                   SingleChildScrollView(
                     child: Container(
+                      //ถ้าข้อมูลที่ป้อนและข้อมูลTag ในฐานข้อมูลตรงกัน
                       height: 50,
                       width: 700,
                       child: ListView.builder(
@@ -2600,7 +2572,6 @@ class _UploadHomeState extends State<UploadHome> {
                             child: GestureDetector(
                               onTap: () {
                                 print('object');
-                                // ทำอะไรสักอย่างเมื่อกด Chip
                               },
                               child: ElevatedButton(
                                 onPressed: () {
@@ -2640,7 +2611,7 @@ class _UploadHomeState extends State<UploadHome> {
                             onDeleted: () {
                               setState(() {
                                 chipsList.removeAt(
-                                    index); // ลบ Chip ที่ถูกกดออกจาก List
+                                    index); // เมื่อกด x หลัง item ลบ Chip ที่ถูกกดออกจาก List
                                 print(chipsList);
                               });
                             },
@@ -2651,18 +2622,19 @@ class _UploadHomeState extends State<UploadHome> {
                   ),
                 ],
               )),
-          buttonConfirm(),
+          buttonConfirm(), //ปุ่มกดยืนยันการอัพไฟล์
         ],
       ),
     );
   }
 
   Future<dynamic> AlertAddSuccessful(BuildContext context) {
+    //แจเงเตือน Add categor สำเร็จ
     return showDialog(
       context: context,
       builder: (context) {
         return WillPopScope(
-            onWillPop: () async =>
+            onWillPop: () async => //ฟังก์ชั่นแจ้งเตือนเมื่อ Add category สำเร็จ
                 false, // ป้องกันการปิด AlertDialog ด้วยการกด back button บนอุปกรณ์
             child: AlertDialog(
               backgroundColor: Colors.white,
@@ -2706,7 +2678,7 @@ class _UploadHomeState extends State<UploadHome> {
       context: context,
       builder: (context) {
         return WillPopScope(
-          onWillPop: () async =>
+          onWillPop: () async => //ฟังก์ชั่นแจ้งเตือนเมื่อ EDIT category สำเร็จ
               false, // ป้องกันการปิด AlertDialog ด้วยการกด back button บนอุปกรณ์
           child: AlertDialog(
             backgroundColor: Colors.white,
@@ -2746,44 +2718,9 @@ class _UploadHomeState extends State<UploadHome> {
     );
   }
 
-  List<DropdownMenuItem<String>> getDropdownItems() {
-    return mainCategory.map((data) {
-      return DropdownMenuItem<String>(
-        value: data.id_category,
-        child: Text(data.name_first),
-      );
-    }).toList();
-  }
-
-  List<DropdownMenuItem<String>> getDropdownItems2() {
-    return second_category_list.map((data) {
-      return DropdownMenuItem<String>(
-        value: data.number_cate,
-        child: Text(data.name_second),
-      );
-    }).toList();
-  }
-
-  List<DropdownMenuItem<String>> getDropdownItems3() {
-    return third_category_list.map((data) {
-      return DropdownMenuItem<String>(
-        value: data.number_cate,
-        child: Text(data.name_third),
-      );
-    }).toList();
-  }
-
-  List<DropdownMenuItem<String>> getDropdownItems4() {
-    return fourth_category_list.map((data) {
-      return DropdownMenuItem<String>(
-        value: data.number_cate,
-        child: Text(data.name_fourth),
-      );
-    }).toList();
-  }
-
   ElevatedButton buttonConfirm() {
     return ElevatedButton.icon(
+      //ปุ่มกดอัพโหลดไฟล์
       onPressed: () async {
         if (currentOption == null) {
           ScaffoldMessenger.of(context).showSnackBar(
@@ -2826,16 +2763,19 @@ class _UploadHomeState extends State<UploadHome> {
           );
         } else if (img_file != null) {
           print('หลุดการตรวจสอบ');
-          String filetype =
-              img_file!.path.split('.')[img_file!.path.split('.').length - 1];
-          String filenameWithExtension = '${nameFileUpload.text}.$filetype';
+          String filetype = img_file!.path.split('.')[
+              img_file!.path.split('.').length - 1]; //filetype = นามสกุลไฟล์
+
+          String filenameWithExtension =
+              '${nameFileUpload.text}.$filetype'; //filenameWithExtension = ชื่อ + นามสกุลไฟล์
+
           if (filenameWithExtension.isNotEmpty) {
             bool nameExists = file_detail_list.any((item) =>
                 item.name_file ==
                 filenameWithExtension); // ตรวจสอบว่าชื่อไฟล์ซ้ำหรือไม่
 
             if (nameExists) {
-              // หากชื่อไฟล์ซ้ำ แก้ไขชื่อไฟล์ใหม่
+              // หากชื่อไฟล์ซ้ำ แก้ไขชื่อไฟล์ใหม่ ให้เป็นรูปแบบ ชื่อไฟล์,ชื่อไฟล์(1),ชื่อไฟล์(2)
 
               int count = 1;
               String newFilename = filenameWithExtension;
