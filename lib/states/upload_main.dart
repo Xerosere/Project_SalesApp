@@ -237,7 +237,10 @@ class _UploadHomeState extends State<UploadHome> {
           backgroundColor: Color.fromARGB(255, 235, 10, 30),
           foregroundColor: Color.fromARGB(255, 255, 255, 255),
           toolbarHeight: 80,
-          title: const Text('UPLOAD'),
+          title: const Text(
+            'UPLOAD',
+            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 30),
+          ),
         ),
         body: Row(
           mainAxisAlignment: MainAxisAlignment.center,

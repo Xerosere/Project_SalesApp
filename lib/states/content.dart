@@ -32,6 +32,8 @@ class _myContentAreaState extends State<myContentArea> {
   TextEditingController descriptionFileEdit = TextEditingController();
   TextEditingController searchdata = TextEditingController();
 
+  List<FileModel> filteredFiles = [];
+
   // final GlobalKey<SfPdfViewerState> _pdfViewerKey = GlobalKey();
   // Future<void>? _launched;
   int countquantity = 0;
@@ -47,6 +49,7 @@ class _myContentAreaState extends State<myContentArea> {
     getseccategory();
     getthirdsubCategory();
     getfourthCategory();
+    filteredFiles = file_detail_list;
   }
 
   Future<void> _launchInBrowser(Uri url) async {
@@ -122,8 +125,6 @@ class _myContentAreaState extends State<myContentArea> {
 
   Future<void> getfiledetail() async {
     String apipath =
-        // 'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
-
         'https://btmexpertsales.com/filemanagesys/get_filedetail.php?sent_id_first=$sent';
     Dio().get(apipath).then((value) {
       print('ชื่อ id FIRST$sent');
@@ -133,7 +134,6 @@ class _myContentAreaState extends State<myContentArea> {
         setState(
           () {
             file_detail_list.add(filedetail);
-            print('sqqe12' + '$file_detail_list');
           },
         );
       }
@@ -164,482 +164,24 @@ class _myContentAreaState extends State<myContentArea> {
               ],
             ),
           ),
+          actions: [
+            Container(
+              width: screensize * 0.665,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  //SearchBar
+                  SearchContent(context),
+                ],
+              ),
+            ),
+          ],
         ),
         body: SingleChildScrollView(
           child: Container(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Container(
-                  //Search
-                  margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-                  constraints: BoxConstraints(maxWidth: 500, maxHeight: 45),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    color: Color.fromARGB(255, 255, 255, 255),
-                    border: Border.all(
-                      color: Colors.black, // สีขอบ
-                      width: 2, // ความหนาของขอบ
-                    ),
-                  ),
-                  child: TextField(
-                    textInputAction: TextInputAction.search,
-                    onSubmitted: (value) {
-                      print("search");
-                      var matchingFiles = file_detail_list.where((file) =>
-                          file.name_file.toLowerCase().contains(value
-                              .toLowerCase()) || // ตรวจสอบว่าชื่อไฟล์มี value ที่ค้นหาหรือไม่
-                          file.Tag.toLowerCase().contains(value
-                              .toLowerCase()) || // ตรวจสอบ Tag มี value ที่ค้นหาหรือไม่
-                          file.IDcategory_first.toLowerCase().contains(value
-                              .toLowerCase()) || // ตรวจสอบ IDcategory_first มี value ที่ค้นหาหรือไม่
-                          file.IDcategory_second!
-                              .toLowerCase()
-                              .contains(value.toLowerCase()) ||
-                          file.IDcategory_third!
-                              .toLowerCase()
-                              .contains(value.toLowerCase()) ||
-                          file.IDcategory_fourth!
-                              .toLowerCase()
-                              .contains(value.toLowerCase()));
-                      if (matchingFiles.isNotEmpty) {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text('Search Result'),
-                              content: SizedBox(
-                                width: double.maxFinite,
-                                height: 300,
-                                child: ListView.builder(
-                                  itemCount: matchingFiles.length,
-                                  itemBuilder: (context, index) {
-                                    var file = matchingFiles.elementAt(index);
-                                    return InkWell(
-                                      onTap: () {
-                                        showDialog(
-                                          context: context,
-                                          builder: (context) => AlertDialog(
-                                            title: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(file.name_file),
-                                                Container(
-                                                  height: 30,
-                                                  child: ElevatedButton(
-                                                    onPressed: () {
-                                                      String url =
-                                                          'https://btmexpertsales.com/filemanagesys/download.php?filename=${file.name_file}';
-                                                      launch(url);
-                                                    },
-                                                    child: const Text(
-                                                      'Download',
-                                                      style: TextStyle(
-                                                          fontSize: 17,
-                                                          fontWeight:
-                                                              FontWeight.w900),
-                                                    ),
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            content: SingleChildScrollView(
-                                              //POPUP เปิดไฟล์
-                                              child: Column(
-                                                children: [
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      if (file.type_file ==
-                                                          'youtube_url') {
-                                                        Navigator.push(context,
-                                                            MaterialPageRoute(
-                                                          builder: (context) {
-                                                            return VideoContent(
-                                                              idref:
-                                                                  '${file.path_video}',
-                                                              title: '',
-                                                            );
-                                                          },
-                                                        ));
-                                                      } else if (file
-                                                              .type_file ==
-                                                          'fileServer_url') {
-                                                        String fileUrl =
-                                                            'https://btmexpertsales.com/filemanagesys/file/${file.name_file}';
-                                                        launch(fileUrl);
-                                                        print(
-                                                            '5555555555555 ${file.name_file}');
-                                                      }
-                                                    },
-                                                    child: Stack(
-                                                      children: [
-                                                        // Container ที่บรรจุรูปภาพ
-                                                        Container(
-                                                          width: 700,
-                                                          height: 400,
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                  20),
-                                                          child: FadeInImage
-                                                              .assetNetwork(
-                                                            placeholder:
-                                                                myconstant
-                                                                    .loadinggif,
-                                                            image: (() {
-                                                              if (file.name_file
-                                                                  .toLowerCase()
-                                                                  .endsWith(
-                                                                      '.pdf')) {
-                                                                return myconstant
-                                                                    .pdficon;
-                                                              } else if (file
-                                                                  .name_file
-                                                                  .toLowerCase()
-                                                                  .endsWith(
-                                                                      '.docx')) {
-                                                                return myconstant
-                                                                    .docicon;
-                                                              } else if (file
-                                                                  .name_file
-                                                                  .toLowerCase()
-                                                                  .endsWith(
-                                                                      '.xlsx')) {
-                                                                return myconstant
-                                                                    .xlsxicon;
-                                                              } else if (file
-                                                                  .name_file
-                                                                  .toLowerCase()
-                                                                  .endsWith(
-                                                                      '.zip')) {
-                                                                return myconstant
-                                                                    .zipicon;
-                                                              } else if (file
-                                                                      .type_file ==
-                                                                  'youtube_url') {
-                                                                print(
-                                                                    'API_path_video_Search');
-                                                                return 'https://btmexpertsales.com/filemanagesys/showimages.php?url=https://img.youtube.com/vi/${file.path_video}/maxresdefault.jpg';
-                                                              } else {
-                                                                print(
-                                                                    'data_file_pic_Search');
-
-                                                                return 'https://btmexpertsales.com/filemanagesys/showimages.php?url=file/${file.name_file}';
-                                                              }
-                                                            })(),
-                                                            fit: BoxFit.contain,
-                                                          ),
-                                                        ),
-                                                        if (file.type_file ==
-                                                            'youtube_url')
-                                                          Positioned(
-                                                            top: 150,
-                                                            left: 300,
-                                                            child: Container(
-                                                              width: 100,
-                                                              height: 100,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                borderRadius: BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            8)),
-                                                                image:
-                                                                    DecorationImage(
-                                                                  image: AssetImage(
-                                                                      myconstant
-                                                                          .playicon),
-                                                                  fit: BoxFit
-                                                                      .scaleDown, // หรือเลือก BoxFit ตามที่เหมาะสม
-                                                                ),
-                                                              ),
-                                                            ),
-                                                          ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  Container(
-                                                    child: Column(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  10, 0, 10, 0),
-                                                          child: Row(
-                                                            children: [
-                                                              const Text(
-                                                                  'ชื่อไฟล์ : ',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          16)),
-                                                              Text(
-                                                                  "${file.name_file}"),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  10, 0, 10, 0),
-                                                          width: 600,
-                                                          child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
-                                                            children: [
-                                                              const Text(
-                                                                'รายละเอียด : ',
-                                                                style:
-                                                                    TextStyle(
-                                                                  fontWeight:
-                                                                      FontWeight
-                                                                          .bold,
-                                                                  fontSize: 16,
-                                                                ),
-                                                                textAlign:
-                                                                    TextAlign
-                                                                        .start,
-                                                              ),
-                                                              Flexible(
-                                                                child: Text(
-                                                                    "${file.description_file}",
-                                                                    overflow:
-                                                                        TextOverflow
-                                                                            .visible),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  10, 0, 10, 0),
-                                                          // width: 200,
-                                                          child: Row(
-                                                            children: [
-                                                              const Text(
-                                                                  'ผู้อัพโหลด :',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          16)),
-                                                              Text(
-                                                                  "${file.user_name}"),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  10, 0, 10, 0),
-                                                          // width: 200,
-                                                          child: Row(
-                                                            children: [
-                                                              const Text(
-                                                                  'เวลาที่อัพโหลด : ',
-                                                                  style: TextStyle(
-                                                                      fontWeight:
-                                                                          FontWeight
-                                                                              .bold,
-                                                                      fontSize:
-                                                                          16)),
-                                                              Text(file
-                                                                  .datetime_upload),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Container(
-                                                          margin:
-                                                              const EdgeInsets
-                                                                  .fromLTRB(
-                                                                  10, 0, 10, 0),
-                                                          width: 120,
-                                                          child: Row(
-                                                            children: [
-                                                              const Text(
-                                                                'File ID : ',
-                                                                style: TextStyle(
-                                                                    fontWeight:
-                                                                        FontWeight
-                                                                            .bold,
-                                                                    fontSize:
-                                                                        16),
-                                                              ),
-                                                              Text(
-                                                                  "${file.number_cate}"),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        // Container(
-                                                        //   margin:
-                                                        //       EdgeInsets.fromLTRB(
-                                                        //           10, 0, 10, 0),
-                                                        //   width: 120,
-                                                        //   child: Text(
-                                                        //       "${data.category}"),
-                                                        // ),
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            actions: [
-                                              TextButton(
-                                                  onPressed: () =>
-                                                      Navigator.pop(context),
-                                                  child: Text('Back')),
-                                              TextButton(
-                                                onPressed: () async {
-                                                  showDialog(
-                                                    context: context,
-                                                    builder: (context) {
-                                                      return StatefulBuilder(
-                                                        builder: (context,
-                                                            setState) {
-                                                          return AlertDialog(
-                                                            title: Text(
-                                                                'Edit File'),
-                                                            content:
-                                                                SingleChildScrollView(
-                                                              child: Column(
-                                                                children: [
-                                                                  TextField(
-                                                                    controller:
-                                                                        descriptionFileEdit, // ใช้ TextEditingController ที่กำหนดไว้ก่อนหน้านี้
-                                                                    decoration:
-                                                                        const InputDecoration(
-                                                                      labelText:
-                                                                          'แก้ไขรายละเอียด', // ให้เป็น label ของ TextField
-                                                                    ),
-                                                                  ),
-                                                                  // สามารถเพิ่ม TextField หรือ Widgets อื่นๆ เพิ่มเติมที่นี่
-                                                                ],
-                                                              ),
-                                                            ),
-                                                            actions: [
-                                                              TextButton(
-                                                                onPressed: () =>
-                                                                    Navigator.pop(
-                                                                        context),
-                                                                child: Text(
-                                                                    'Cancel'),
-                                                              ),
-                                                              TextButton(
-                                                                onPressed:
-                                                                    () async {
-                                                                  print(
-                                                                      '${descriptionFileEdit.text}');
-                                                                  String
-                                                                      apipath =
-                                                                      'https://btmexpertsales.com/filemanagesys/edit_file_detail.php?descriptionFileEdit=${descriptionFileEdit.text}&idFile=${file.number_cate}';
-
-                                                                  await Dio()
-                                                                      .get(
-                                                                          apipath)
-                                                                      .then(
-                                                                          (value) {
-                                                                    print(
-                                                                        value);
-                                                                  });
-                                                                  Navigator.pop(
-                                                                      context);
-                                                                  Navigator.pushReplacement(
-                                                                      context,
-                                                                      MaterialPageRoute(
-                                                                          builder: (BuildContext context) =>
-                                                                              super.widget));
-                                                                },
-                                                                child: Text(
-                                                                    'Confirm'),
-                                                              ),
-                                                            ],
-                                                          );
-                                                        },
-                                                      );
-                                                    },
-                                                  );
-                                                },
-                                                child: Text('Edit'),
-                                              )
-                                            ],
-                                          ),
-                                        );
-                                      },
-                                      child: ListTile(
-                                        title: Text(file.name_file),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              backgroundColor:
-                                  Colors.white, // Set background color
-                              title: const Text(
-                                'ERROR',
-                                style: TextStyle(
-                                  color: Colors.red, // Set title text color
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                              ),
-                              content: const Text(
-                                'No information found !!!',
-                                style: TextStyle(
-                                  color: Color.fromARGB(
-                                      255, 0, 0, 0), // Set content text color
-                                  fontSize: 16,
-                                ),
-                              ),
-                              actions: <Widget>[
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text(
-                                    'Confirm',
-                                    style: TextStyle(
-                                      color:
-                                          Colors.blue, // Set button text color
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      prefixIcon: Icon(Icons.search),
-                      hintText: 'Search',
-                      contentPadding:
-                          EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                    ),
-                  ),
-                ),
                 Container(
                   margin: EdgeInsets.all(20),
                   alignment: Alignment.topCenter,
@@ -719,22 +261,14 @@ class _myContentAreaState extends State<myContentArea> {
                                       currentOption2 = newValue!;
                                       print('$currentOption2');
                                       currentOption4 = null;
-                                      file_detail_list.clear();
-                                      String apipath =
-                                          'https://btmexpertsales.com/filemanagesys/getfilesec_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2';
-                                      Dio().get(apipath).then((value) {
-                                        print('XAXAXA' '$value');
-                                        print(sent);
-                                        List<dynamic> dataList =
-                                            jsonDecode(value.data);
-                                        for (var data in dataList) {
-                                          FileModel filedetail =
-                                              FileModel.fromMap(data);
-                                          setState(() {
-                                            file_detail_list.add(filedetail);
-                                          });
-                                        }
-                                      });
+                                      currentOption3 = null;
+
+                                      filteredFiles =
+                                          file_detail_list //แสดงไฟล์ทั้งหมดที่อยู่ใน category 2 ที่เลือก
+                                              .where((file) =>
+                                                  file.IDcategory_second ==
+                                                  currentOption2)
+                                              .toList();
                                     });
                                   },
                                   items: second_category_list.map((data) {
@@ -816,23 +350,12 @@ class _myContentAreaState extends State<myContentArea> {
                                         currentOption4 = null;
                                         setState(() {
                                           currentOption3 = newValue!;
-                                          file_detail_list.clear();
-                                          String apipath =
-                                              'https://btmexpertsales.com/filemanagesys/getfile3rd_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3';
-                                          Dio().get(apipath).then((value) {
-                                            print('AAAA' '$value');
-                                            print(sent);
-
-                                            jsonDecode(value.data)
-                                                .forEach((data) {
-                                              FileModel filedetail =
-                                                  FileModel.fromMap(data);
-                                              setState(() {
-                                                file_detail_list
-                                                    .add(filedetail);
-                                              });
-                                            });
-                                          });
+                                          filteredFiles =
+                                              file_detail_list //แสดงไฟล์ทั้งหมดที่อยู่ใน category 3 ที่เลือก
+                                                  .where((file) =>
+                                                      file.IDcategory_third ==
+                                                      currentOption3)
+                                                  .toList();
                                         });
                                       },
                                       items: third_category_list
@@ -859,7 +382,7 @@ class _myContentAreaState extends State<myContentArea> {
                                     'Brochure' || //ป้ายกำกับ category 4
                                 widget.idref == 'Full Line Catalog' ||
                                 widget.idref == 'Picture AllProduct' ||
-                                widget.idref == 'Video AllProduct')s
+                                widget.idref == 'Video AllProduct')
                               Container(
                                 margin: EdgeInsets.only(left: 10),
                                 child: Text(
@@ -919,22 +442,12 @@ class _myContentAreaState extends State<myContentArea> {
                                       setState(() {
                                         currentOption4 = newValue!;
                                         print("OP4" + '$currentOption4');
-                                        file_detail_list.clear();
-                                        String apipath =
-                                            'https://btmexpertsales.com/filemanagesys/getfile4th_change.php?file_first_cate=$sent&&file_second_cate=$currentOption2&&file_third_cate=$currentOption3&&file_fourth_cate=$currentOption4';
-                                        Dio().get(apipath).then((value) {
-                                          print('AAAA' '$value');
-                                          print(sent);
-
-                                          jsonDecode(value.data)
-                                              .forEach((data) {
-                                            FileModel filedetail =
-                                                FileModel.fromMap(data);
-                                            setState(() {
-                                              file_detail_list.add(filedetail);
-                                            });
-                                          });
-                                        });
+                                        filteredFiles =
+                                            file_detail_list //แสดงไฟล์ทั้งหมดที่อยู่ใน category 4 ที่เลือก
+                                                .where((file) =>
+                                                    file.IDcategory_fourth ==
+                                                    currentOption4)
+                                                .toList();
                                       });
                                     },
                                     items: fourth_category_list
@@ -958,10 +471,22 @@ class _myContentAreaState extends State<myContentArea> {
                     ],
                   ),
                 ),
-                SingleChildScrollView(
-                    child: Container(
-                        //content
-                        child: Column(children: [
+                ElevatedButton(
+                    //Clear Filter
+                    onPressed: () {
+                      setState(() {
+                        currentOption2 = null;
+                        currentOption3 = null;
+                        currentOption4 = null;
+                        print(currentOption2);
+                        filteredFiles.clear();
+                        filteredFiles = file_detail_list;
+                      });
+                    },
+                    child: Text('Clear')),
+                Container(
+                    //content
+                    child: Column(children: [
                   Container(
                     padding: const EdgeInsets.fromLTRB(80, 20, 80, 20),
                     margin: const EdgeInsets.fromLTRB(20, 0, 0, 0),
@@ -972,7 +497,7 @@ class _myContentAreaState extends State<myContentArea> {
                         shrinkWrap: true,
                         crossAxisCount: 5,
                         children: [
-                          for (var data in file_detail_list)
+                          for (var data in filteredFiles)
                             Padding(
                               padding: EdgeInsets.all(8),
                               child: Container(
@@ -992,7 +517,7 @@ class _myContentAreaState extends State<myContentArea> {
                                       context: context,
                                       builder: (context) => AlertDialog(
                                         title: Container(
-                                          width: screensize,
+                                          width: screensize * 0.7,
                                           child: Container(
                                             child: Row(
                                               mainAxisAlignment:
@@ -1005,7 +530,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                     constraints:
                                                         const BoxConstraints(
                                                             maxWidth:
-                                                                250 // หรือค่าที่คุณต้องการ
+                                                                400 // หรือค่าที่คุณต้องการ
                                                             ),
                                                     child: Flexible(
                                                       child: Text(
@@ -1073,8 +598,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                     children: [
                                                       // Container ที่บรรจุรูปภาพ
                                                       Container(
-                                                        width: 700,
-                                                        height: 400,
+                                                        height: 500,
                                                         padding:
                                                             EdgeInsets.all(20),
                                                         child: FadeInImage
@@ -1462,10 +986,412 @@ class _myContentAreaState extends State<myContentArea> {
                       ),
                     ]),
                   )
-                ]))),
+                ])),
               ],
             ),
           ),
         ));
+  }
+
+  Container SearchContent(BuildContext context) {
+    return Container(
+      //Search
+      margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
+      constraints: BoxConstraints(maxWidth: 500, maxHeight: 45),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: Color.fromARGB(255, 255, 255, 255),
+        border: Border.all(
+          color: Colors.black, // สีขอบ
+          width: 2, // ความหนาของขอบ
+        ),
+      ),
+      child: TextField(
+        textInputAction: TextInputAction.search,
+        onSubmitted: (value) {
+          print("search");
+          var matchingFiles = file_detail_list.where((file) =>
+              file.name_file.toLowerCase().contains(value
+                  .toLowerCase()) || // ตรวจสอบว่าชื่อไฟล์มี value ที่ค้นหาหรือไม่
+              file.Tag.toLowerCase().contains(value
+                  .toLowerCase()) || // ตรวจสอบ Tag มี value ที่ค้นหาหรือไม่
+              file.IDcategory_first.toLowerCase().contains(value
+                  .toLowerCase()) || // ตรวจสอบ IDcategory_first มี value ที่ค้นหาหรือไม่
+              file.IDcategory_second!
+                  .toLowerCase()
+                  .contains(value.toLowerCase()) ||
+              file.IDcategory_third!
+                  .toLowerCase()
+                  .contains(value.toLowerCase()) ||
+              file.IDcategory_fourth!
+                  .toLowerCase()
+                  .contains(value.toLowerCase()));
+          if (matchingFiles.isNotEmpty) {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text('Search Result'),
+                  content: SizedBox(
+                    width: double.maxFinite,
+                    height: 300,
+                    child: ListView.builder(
+                      itemCount: matchingFiles.length,
+                      itemBuilder: (context, index) {
+                        var file = matchingFiles.elementAt(index);
+                        return InkWell(
+                          onTap: () {
+                            showDialog(
+                              context: context,
+                              builder: (context) => AlertDialog(
+                                title: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(file.name_file),
+                                    Container(
+                                      height: 30,
+                                      child: ElevatedButton(
+                                        onPressed: () {
+                                          String url =
+                                              'https://btmexpertsales.com/filemanagesys/download.php?filename=${file.name_file}';
+                                          launch(url);
+                                        },
+                                        child: const Text(
+                                          'Download',
+                                          style: TextStyle(
+                                              fontSize: 17,
+                                              fontWeight: FontWeight.w900),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                content: SingleChildScrollView(
+                                  //POPUP เปิดไฟล์
+                                  child: Column(
+                                    children: [
+                                      GestureDetector(
+                                        onTap: () {
+                                          if (file.type_file == 'youtube_url') {
+                                            Navigator.push(context,
+                                                MaterialPageRoute(
+                                              builder: (context) {
+                                                return VideoContent(
+                                                  idref: '${file.path_video}',
+                                                  title: '',
+                                                );
+                                              },
+                                            ));
+                                          } else if (file.type_file ==
+                                              'fileServer_url') {
+                                            String fileUrl =
+                                                'https://btmexpertsales.com/filemanagesys/file/${file.name_file}';
+                                            launch(fileUrl);
+                                            print(
+                                                '5555555555555 ${file.name_file}');
+                                          }
+                                        },
+                                        child: Stack(
+                                          children: [
+                                            // Container ที่บรรจุรูปภาพ
+                                            Container(
+                                              width: 700,
+                                              height: 400,
+                                              padding: EdgeInsets.all(20),
+                                              child: FadeInImage.assetNetwork(
+                                                placeholder:
+                                                    myconstant.loadinggif,
+                                                image: (() {
+                                                  if (file.name_file
+                                                      .toLowerCase()
+                                                      .endsWith('.pdf')) {
+                                                    return myconstant.pdficon;
+                                                  } else if (file.name_file
+                                                      .toLowerCase()
+                                                      .endsWith('.docx')) {
+                                                    return myconstant.docicon;
+                                                  } else if (file.name_file
+                                                      .toLowerCase()
+                                                      .endsWith('.xlsx')) {
+                                                    return myconstant.xlsxicon;
+                                                  } else if (file.name_file
+                                                      .toLowerCase()
+                                                      .endsWith('.zip')) {
+                                                    return myconstant.zipicon;
+                                                  } else if (file.type_file ==
+                                                      'youtube_url') {
+                                                    print(
+                                                        'API_path_video_Search');
+                                                    return 'https://btmexpertsales.com/filemanagesys/showimages.php?url=https://img.youtube.com/vi/${file.path_video}/maxresdefault.jpg';
+                                                  } else {
+                                                    print(
+                                                        'data_file_pic_Search');
+
+                                                    return 'https://btmexpertsales.com/filemanagesys/showimages.php?url=file/${file.name_file}';
+                                                  }
+                                                })(),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                            if (file.type_file == 'youtube_url')
+                                              Positioned(
+                                                top: 150,
+                                                left: 300,
+                                                child: Container(
+                                                  width: 100,
+                                                  height: 100,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(8)),
+                                                    image: DecorationImage(
+                                                      image: AssetImage(
+                                                          myconstant.playicon),
+                                                      fit: BoxFit
+                                                          .scaleDown, // หรือเลือก BoxFit ตามที่เหมาะสม
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              child: Row(
+                                                children: [
+                                                  const Text('ชื่อไฟล์ : ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16)),
+                                                  Text("${file.name_file}"),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              width: 600,
+                                              child: Row(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  const Text(
+                                                    'รายละเอียด : ',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                      fontSize: 16,
+                                                    ),
+                                                    textAlign: TextAlign.start,
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                        "${file.description_file}",
+                                                        overflow: TextOverflow
+                                                            .visible),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              // width: 200,
+                                              child: Row(
+                                                children: [
+                                                  const Text('ผู้อัพโหลด :',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16)),
+                                                  Text("${file.user_name}"),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              // width: 200,
+                                              child: Row(
+                                                children: [
+                                                  const Text(
+                                                      'เวลาที่อัพโหลด : ',
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 16)),
+                                                  Text(file.datetime_upload),
+                                                ],
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: const EdgeInsets.fromLTRB(
+                                                  10, 0, 10, 0),
+                                              width: 120,
+                                              child: Row(
+                                                children: [
+                                                  const Text(
+                                                    'File ID : ',
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: 16),
+                                                  ),
+                                                  Text("${file.number_cate}"),
+                                                ],
+                                              ),
+                                            ),
+                                            // Container(
+                                            //   margin:
+                                            //       EdgeInsets.fromLTRB(
+                                            //           10, 0, 10, 0),
+                                            //   width: 120,
+                                            //   child: Text(
+                                            //       "${data.category}"),
+                                            // ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () => Navigator.pop(context),
+                                      child: Text('Back')),
+                                  TextButton(
+                                    onPressed: () async {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return StatefulBuilder(
+                                            builder: (context, setState) {
+                                              return AlertDialog(
+                                                title: Text('Edit File'),
+                                                content: SingleChildScrollView(
+                                                  child: Column(
+                                                    children: [
+                                                      TextField(
+                                                        controller:
+                                                            descriptionFileEdit, // ใช้ TextEditingController ที่กำหนดไว้ก่อนหน้านี้
+                                                        decoration:
+                                                            const InputDecoration(
+                                                          labelText:
+                                                              'แก้ไขรายละเอียด', // ให้เป็น label ของ TextField
+                                                        ),
+                                                      ),
+                                                      // สามารถเพิ่ม TextField หรือ Widgets อื่นๆ เพิ่มเติมที่นี่
+                                                    ],
+                                                  ),
+                                                ),
+                                                actions: [
+                                                  TextButton(
+                                                    onPressed: () =>
+                                                        Navigator.pop(context),
+                                                    child: Text('Cancel'),
+                                                  ),
+                                                  TextButton(
+                                                    onPressed: () async {
+                                                      print(
+                                                          '${descriptionFileEdit.text}');
+                                                      String apipath =
+                                                          'https://btmexpertsales.com/filemanagesys/edit_file_detail.php?descriptionFileEdit=${descriptionFileEdit.text}&idFile=${file.number_cate}';
+
+                                                      await Dio()
+                                                          .get(apipath)
+                                                          .then((value) {
+                                                        print(value);
+                                                      });
+                                                      Navigator.pop(context);
+                                                      Navigator.pushReplacement(
+                                                          context,
+                                                          MaterialPageRoute(
+                                                              builder: (BuildContext
+                                                                      context) =>
+                                                                  super
+                                                                      .widget));
+                                                    },
+                                                    child: Text('Confirm'),
+                                                  ),
+                                                ],
+                                              );
+                                            },
+                                          );
+                                        },
+                                      );
+                                    },
+                                    child: Text('Edit'),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(file.name_file),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
+            );
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  backgroundColor: Colors.white, // Set background color
+                  title: const Text(
+                    'ERROR',
+                    style: TextStyle(
+                      color: Colors.red, // Set title text color
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                    ),
+                  ),
+                  content: const Text(
+                    'No information found !!!',
+                    style: TextStyle(
+                      color: Color.fromARGB(
+                          255, 0, 0, 0), // Set content text color
+                      fontSize: 16,
+                    ),
+                  ),
+                  actions: <Widget>[
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text(
+                        'Confirm',
+                        style: TextStyle(
+                          color: Colors.blue, // Set button text color
+                        ),
+                      ),
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+        },
+        decoration: const InputDecoration(
+          border: InputBorder.none,
+          prefixIcon: Icon(Icons.search),
+          hintText: 'Search',
+          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        ),
+      ),
+    );
   }
 }
