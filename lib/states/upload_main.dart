@@ -498,16 +498,6 @@ class _UploadHomeState extends State<UploadHome> {
               content: Text('กรุณาเลือกหมวดหมู่ที่สาม'),
             ),
           );
-        } else if (currentOption3 !=
-                null && //ตรวจสอบว่า ถ้าหมวดหมู่ที่3ที่เลือกมีหมวดหมู่ย่อย ต้องเลือกหมวดหมู่ย่อยก่อน
-            fourth_category_list
-                .any((item) => item.IDcategory_third == currentOption3) &&
-            currentOption4 == null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text('กรุณาเลือกหมวดหมู่ที่สี่'),
-            ),
-          );
         } else {
           // เมื่อปุ่มถูกกด
           showDialog(
@@ -534,108 +524,116 @@ class _UploadHomeState extends State<UploadHome> {
                       TextFormField(
                         decoration: InputDecoration(
                             hintText:
-                                'Video URL'), //ป้อนLink จะเป็นFullหรือShort ก็ได้ Full link: https://www.youtube.com/watch?v=ItPC7-SjQfM Short link: https://youtu.be/ItPC7-SjQfM
+                                'Video URL (https://youtu.be/<Video ID>,https://www.youtube.com/watch?v=<Video ID>)'), //ป้อนLink จะเป็นFullหรือShort ก็ได้ Full link: https://www.youtube.com/watch?v=ItPC7-SjQfM Short link: https://youtu.be/ItPC7-SjQfM
                         controller: pathVideoInput,
                       ),
-                      ElevatedButton(
-                        onPressed: () {
-                          //ตรวจสอบว่าผู้ใช้ป้อนข้อมูลช่อง Name Video และ Video URL หรือไม่ ถ้าช่องใดช่องหนึ่งไม่มีข้อมูลจะขึ้นแจ้งเตือน
-                          if (nameYoutube.text.isEmpty ||
-                              pathVideoInput.text.isEmpty) {
-                            Navigator.pop(context);
+                      Container(
+                        height: 50,
+                        margin: EdgeInsets.only(top: 50),
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.red, // สีพื้นหลังปุ่ม
+                            foregroundColor: Colors.white, // สีขอบของตัวอักษร
+                          ),
+                          onPressed: () {
+                            //ตรวจสอบว่าผู้ใช้ป้อนข้อมูลช่อง Name Video และ Video URL หรือไม่ ถ้าช่องใดช่องหนึ่งไม่มีข้อมูลจะขึ้นแจ้งเตือน
+                            if (nameYoutube.text.isEmpty ||
+                                pathVideoInput.text.isEmpty) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Please fill in all fields.'),
+                                ),
+                              );
+                              return;
+                            }
+                            RegExp shortUrlRegExp = RegExp(
+                                r'^https:\/\/youtu\.be\/([^\?&]+)'); //ตัด Short link ให้เหลือแค่ID ของวิดีโอ
+                            Match? shortUrlMatch =
+                                shortUrlRegExp.firstMatch(pathVideoInput.text);
+
+                            RegExp fullUrlRegExp = RegExp(
+                                r'^https:\/\/www\.youtube\.com\/watch\?v=([^\?&]+)'); //ตัด Full link ให้เหลือแค่ID ของวิดีโอ
+
+                            Match? fullUrlMatch =
+                                fullUrlRegExp.firstMatch(pathVideoInput.text);
+
+                            String videoId; //เก็บค่า Youtube ID
+
+                            if (shortUrlMatch !=
+                                    null && //ตรวจสอบว่าความถูกต้องของLink ที่ผู้ใช้กรอก
+                                shortUrlMatch.groupCount >= 1) {
+                              videoId = shortUrlMatch.group(1)!;
+                            } else if (fullUrlMatch != null &&
+                                fullUrlMatch.groupCount >= 1) {
+                              videoId = fullUrlMatch.group(1)!;
+                            } else {
+                              //ถ้าlink ไม่ถูกต้องให้แจ้งเตือนInvalid YouTube URL.
+                              setState(() {
+                                nameYoutube.clear();
+                                pathVideoInput.clear();
+                                descriptionLinkInput.clear();
+                              });
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Invalid YouTube URL.'),
+                                ),
+                              );
+                              return;
+                            }
+                            // เช็คว่า URL ซ้ำหรือไม่
+                            bool isDuplicate = file_detail_list
+                                .any((item) => item.path_video == videoId);
+                            if (isDuplicate) {
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                      'Duplicate video path. Please choose another video.'),
+                                ),
+                              );
+                              return;
+                            }
+                            //ถ้าเงื่อนไขทั้งหมดผ่าน บันทึกข้อมูลลงฐานข้อมูล
+                            String apipath =
+                                'https://btmexpertsales.com/filemanagesys/insert_detail_filemanage.php?'
+                                'nameFile=${nameYoutube.text}&'
+                                'descriptionFile=${descriptionLinkInput.text}&'
+                                'datetimeUpload=$now&'
+                                'IDpath_youtube=$videoId&'
+                                'IDcategory_first=$currentOption&'
+                                'IDcategory_second=$currentOption2&'
+                                'IDcategory_third=$currentOption3&'
+                                'IDcategory_fourth=$currentOption4&'
+                                'type_of_file=youtube_url&'
+                                'tag_file=${currentOption3 != null ? '$currentOption3,' : ''}${chipsList.join(',')}';
+
+                            Dio().get(apipath).then((response) {
+                              print(response);
+                            }).catchError((error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Error uploading video.'),
+                                ),
+                              );
+                            });
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('Please fill in all fields.'),
+                                content: Text('Video uploaded successfully.'),
                               ),
                             );
-                            return;
-                          }
-                          RegExp shortUrlRegExp = RegExp(
-                              r'^https:\/\/youtu\.be\/([^\?&]+)'); //ตัด Short link ให้เหลือแค่ID ของวิดีโอ
-                          Match? shortUrlMatch =
-                              shortUrlRegExp.firstMatch(pathVideoInput.text);
 
-                          RegExp fullUrlRegExp = RegExp(
-                              r'^https:\/\/www\.youtube\.com\/watch\?v=([^\?&]+)'); //ตัด Full link ให้เหลือแค่ID ของวิดีโอ
-
-                          Match? fullUrlMatch =
-                              fullUrlRegExp.firstMatch(pathVideoInput.text);
-
-                          String videoId; //เก็บค่า Youtube ID
-
-                          if (shortUrlMatch !=
-                                  null && //ตรวจสอบว่าความถูกต้องของLink ที่ผู้ใช้กรอก
-                              shortUrlMatch.groupCount >= 1) {
-                            videoId = shortUrlMatch.group(1)!;
-                          } else if (fullUrlMatch != null &&
-                              fullUrlMatch.groupCount >= 1) {
-                            videoId = fullUrlMatch.group(1)!;
-                          } else {
-                            //ถ้าlink ไม่ถูกต้องให้แจ้งเตือนInvalid YouTube URL.
+                            // Clear input fields and close the dialog
                             setState(() {
                               nameYoutube.clear();
                               pathVideoInput.clear();
                               descriptionLinkInput.clear();
                             });
                             Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Invalid YouTube URL.'),
-                              ),
-                            );
-                            return;
-                          }
-                          // เช็คว่า URL ซ้ำหรือไม่
-                          bool isDuplicate = file_detail_list
-                              .any((item) => item.path_video == videoId);
-                          if (isDuplicate) {
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                    'Duplicate video path. Please choose another video.'),
-                              ),
-                            );
-                            return;
-                          }
-                          //ถ้าเงื่อนไขทั้งหมดผ่าน บันทึกข้อมูลลงฐานข้อมูล
-                          String apipath =
-                              'https://btmexpertsales.com/filemanagesys/insert_detail_filemanage.php?'
-                              'nameFile=${nameYoutube.text}&'
-                              'descriptionFile=${descriptionLinkInput.text}&'
-                              'datetimeUpload=$now&'
-                              'IDpath_youtube=$videoId&'
-                              'IDcategory_first=$currentOption&'
-                              'IDcategory_second=$currentOption2&'
-                              'IDcategory_third=$currentOption3&'
-                              'IDcategory_fourth=$currentOption4&'
-                              'type_of_file=youtube_url&'
-                              'tag_file=${currentOption3 != null ? '$currentOption3,' : ''}${chipsList.join(',')}';
-
-                          Dio().get(apipath).then((response) {
-                            print(response);
-                          }).catchError((error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('Error uploading video.'),
-                              ),
-                            );
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Video uploaded successfully.'),
-                            ),
-                          );
-
-                          // Clear input fields and close the dialog
-                          setState(() {
-                            nameYoutube.clear();
-                            pathVideoInput.clear();
-                            descriptionLinkInput.clear();
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Text('Confirm'),
+                          },
+                          child: Text('Upload'),
+                        ),
                       )
                     ],
                   ),
@@ -2762,6 +2760,22 @@ class _UploadHomeState extends State<UploadHome> {
             ),
           );
         } else if (img_file != null) {
+          file_detail_list.clear();
+          
+          String apipath =
+              'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
+          await Dio().get(apipath).then((value) {
+            // print('ไฟล์Home$value');
+            for (var data in jsonDecode(value.data)) {
+              FileModel filedetail = FileModel.fromMap(data);
+              setState(
+                () {
+                  file_detail_list.add(filedetail);
+                },
+              );
+            }
+          });
+
           print('หลุดการตรวจสอบ');
           String filetype = img_file!.path.split('.')[
               img_file!.path.split('.').length - 1]; //filetype = นามสกุลไฟล์
@@ -2872,10 +2886,10 @@ class _UploadHomeState extends State<UploadHome> {
           // อัปโหลดไฟล์ไปยังเซิร์ฟเวอร์
 
           print('55555555$filenameWithExtension');
-          var apipath =
+          var apipath2 =
               'https://www.btmexpertsales.com/filemanagesys/upload_file_filemanage.php';
 
-          var request = http.MultipartRequest('POST', Uri.parse(apipath));
+          var request = http.MultipartRequest('POST', Uri.parse(apipath2));
           Uint8List data = webImageArr;
           List<int> list = data.cast();
 

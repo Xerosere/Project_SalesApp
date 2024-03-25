@@ -649,13 +649,55 @@ class _myContentAreaState extends State<myContentArea> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Container(                             ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ Brand
-                          //   margin: EdgeInsets.only(left: 10),
-                          //   child: Text(
-                          //     '*category 2',
-                          //     style: TextStyle(color: Colors.red),
-                          //   ),
-                          // ),
+                          if (widget.idref ==
+                                  'Brochure' || //ป้ายกำกับ category2
+                              widget.idref == 'Full Line Catalog' ||
+                              widget.idref == 'Picture AllProduct' ||
+                              widget.idref == 'Video AllProduct')
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                '*brand',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          if (widget.idref ==
+                                  'Presentation' //ป้ายกำกับ category2 Presentation
+                              )
+                            Container(
+                              margin: EdgeInsets.only(left: 10),
+                              child: Text(
+                                '',
+                                style: TextStyle(color: Colors.red),
+                              ),
+                            ),
+                          if (widget.idref ==
+                                  'Artwork' //ป้ายกำกับ category2 Artwork
+                              )
+                            Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '*topic',
+                                  style: TextStyle(color: Colors.red),
+                                )),
+                          if (widget.idref ==
+                                  'Promotion' //ป้ายกำกับ category2 Promotion
+                              )
+                            Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '*period',
+                                  style: TextStyle(color: Colors.red),
+                                )),
+                          if (widget.idref ==
+                                  'Allied Product' //ป้ายกำกับ category2 Promotion
+                              )
+                            Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '',
+                                  style: TextStyle(color: Colors.red),
+                                )),
                           Container(
                             // category2 option
 
@@ -710,13 +752,55 @@ class _myContentAreaState extends State<myContentArea> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container(   ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ type
-                            //   margin: EdgeInsets.only(left: 10),
-                            //   child: Text(
-                            //     '*category 3',
-                            //     style: TextStyle(color: Colors.red),
-                            //   ),
-                            // ),
+                            //ป้ายกำกับ category3
+                            if (widget.idref == 'Brochure' ||
+                                widget.idref == 'Full Line Catalog' ||
+                                widget.idref == 'Picture AllProduct' ||
+                                widget.idref == 'Video AllProduct')
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '*type',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            if (widget.idref ==
+                                    'Presentation' //ป้ายกำกับ category3 Presentation
+                                )
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            if (widget.idref ==
+                                    'Artwork' //ป้ายกำกับ category3 Artwork
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                            if (widget.idref ==
+                                    'Promotion' //ป้ายกำกับ category3 Promotion
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '*campaign',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                            if (widget.idref ==
+                                    'Allied Product' //ป้ายกำกับ category3 Promotion
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
                             Container(
                               // category3 option
                               decoration: BoxDecoration(
@@ -771,13 +855,55 @@ class _myContentAreaState extends State<myContentArea> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Container(     ถ้าเป็นโฟลเดอร์ MHE ให้แสดงข้อความ model
-                            //   margin: EdgeInsets.only(left: 10),
-                            //   child: Text(
-                            //     '*category 4',
-                            //     style: TextStyle(color: Colors.red),
-                            //   ),
-                            // ),
+                            if (widget.idref ==
+                                    'Brochure' || //ป้ายกำกับ category 4
+                                widget.idref == 'Full Line Catalog' ||
+                                widget.idref == 'Picture AllProduct' ||
+                                widget.idref == 'Video AllProduct')s
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '*model',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            if (widget.idref ==
+                                    'Presentation' //ป้ายกำกับ category4 Presentation
+                                )
+                              Container(
+                                margin: EdgeInsets.only(left: 10),
+                                child: Text(
+                                  '',
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                              ),
+                            if (widget.idref ==
+                                    'Artwork' //ป้ายกำกับ category4 Artwork
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                            if (widget.idref ==
+                                    'Promotion' //ป้ายกำกับ category4 Promotion
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
+                            if (widget.idref ==
+                                    'Allied Product' //ป้ายกำกับ category4 Promotion
+                                )
+                              Container(
+                                  margin: EdgeInsets.only(left: 10),
+                                  child: Text(
+                                    '',
+                                    style: TextStyle(color: Colors.red),
+                                  )),
                             Container(
                               // category4 option
                               decoration: BoxDecoration(

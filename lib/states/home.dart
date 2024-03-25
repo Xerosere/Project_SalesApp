@@ -716,7 +716,7 @@ class _HomePageState extends State<HomePage> {
                                                 ),
                                               ),
                                               Text(
-                                                "เอกสารเกี่ยวกับ Solutions ต่างๆของทางบริษัท TMHWST",
+                                                "เอกสารเกี่ยวกับ Solutions ต่างๆของทางบริษัท",
                                                 style: TextStyle(
                                                   fontSize: 20,
                                                   fontWeight: FontWeight.bold,
@@ -917,7 +917,7 @@ class _HomePageState extends State<HomePage> {
                                                         ),
                                                       ),
                                                       Text(
-                                                        "Promotion",
+                                                        "",
                                                         style: TextStyle(
                                                           fontSize: 20,
                                                           fontWeight:
