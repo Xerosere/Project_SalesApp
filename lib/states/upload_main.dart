@@ -2761,7 +2761,7 @@ class _UploadHomeState extends State<UploadHome> {
           );
         } else if (img_file != null) {
           file_detail_list.clear();
-          
+
           String apipath =
               'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
           await Dio().get(apipath).then((value) {
