@@ -207,10 +207,12 @@ class _HomePageState extends State<HomePage> {
                                                               MaterialPageRoute(
                                                             builder: (context) {
                                                               return VideoContent(
-                                                                idref:
-                                                                    '${file.path_video}',
-                                                                title: '',
-                                                              );
+                                                                  idref:
+                                                                      '${file.path_video}',
+                                                                  title:
+                                                                      '${file.name_file}',
+                                                                  id_firstcate:
+                                                                      '${file.IDcategory_first}');
                                                             },
                                                           ));
                                                         } else if (file

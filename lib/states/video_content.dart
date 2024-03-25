@@ -11,7 +11,13 @@ class VideoContent extends StatefulWidget {
   final String idref;
   final String title;
 
-  const VideoContent({Key? key, required this.idref, required this.title})
+  final String id_firstcate;
+
+  const VideoContent(
+      {Key? key,
+      required this.idref,
+      required this.title,
+      required this.id_firstcate})
       : super(key: key);
 
   @override
@@ -24,6 +30,7 @@ class _VideoContentState extends State<VideoContent> {
   List<FileModel> video_detail_list = [];
   String id_video = '';
   String name_file = '';
+  String id_Firstcategory = '';
   List<FileModel> filteredFiles = [];
 
   TextEditingController descriptionFileEdit = TextEditingController();
@@ -35,10 +42,12 @@ class _VideoContentState extends State<VideoContent> {
       initialVideoId: widget.idref,
     );
     id_video = widget.idref;
+    id_Firstcategory = widget.id_firstcate;
     getfiledetail();
     getvideodetail();
     print('XAZ  ${id_video}');
     print('XAZ${widget.title}');
+    print('XAZzzz${id_Firstcategory}');
     // Set filteredFiles to file_detail_list initially
     filteredFiles = file_detail_list;
   }
@@ -68,8 +77,6 @@ class _VideoContentState extends State<VideoContent> {
           FileModel videodetail = FileModel.fromMap(data);
           setState(() {
             video_detail_list.add(videodetail);
-            print('กกก$video_detail_list');
-            print('กกกXX)$videodetail');
           });
         }
       } else {
@@ -87,7 +94,7 @@ class _VideoContentState extends State<VideoContent> {
 
     return Scaffold(
         appBar: AppBar(
-          title: Text(id_video),
+          title: Text(widget.title),
         ),
         body: SingleChildScrollView(
           child: Row(
@@ -197,6 +204,7 @@ class _VideoContentState extends State<VideoContent> {
               ),
               Container(
                   // ไฟล์ที่เกี่ยวข้อง
+                  width: screensize * 0.45,
                   height: screensizeHeight * 0.9,
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -210,23 +218,57 @@ class _VideoContentState extends State<VideoContent> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                          margin: const EdgeInsets.fromLTRB(30, 10, 10, 10),
-                          child: const Text(
-                            'ไฟล์ที่เกี่ยวข้อง :',
-                            style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          )),
-                      Container(
-                        width: screensize * 0.45,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Container(
-                                // ปุ่มfilter file ถ้ากดBrochure จะแสดงเฉพาะไฟล์ที่ IDcategory_first(category1) == Brochure
-                                margin: EdgeInsets.fromLTRB(30, 5, 5, 5),
+                      for (var data in video_detail_list)
+                        Container(
+                            margin: const EdgeInsets.fromLTRB(30, 10, 10, 10),
+                            child: Text(
+                              'ไฟล์ที่เกี่ยวข้อง :   ${data.Tag}',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            )),
+                      if (widget.id_firstcate == 'Brochure' ||
+                          widget.id_firstcate == 'Full Line Catalog' ||
+                          widget.id_firstcate == 'Video AllProduct' ||
+                          widget.id_firstcate == 'Picture AllProduct')
+                        Container(
+                          width: screensize * 0.45,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Container(
+                                  // ปุ่มfilter file ถ้ากดBrochure จะแสดงเฉพาะไฟล์ที่ IDcategory_first(category1) == Brochure
+                                  margin: EdgeInsets.fromLTRB(30, 5, 5, 5),
+                                  width: 130,
+                                  height: 40,
+                                  child: ElevatedButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          filteredFiles = file_detail_list
+                                              .where((file) =>
+                                                  file.IDcategory_first ==
+                                                  'Brochure')
+                                              .toList();
+                                        });
+                                      },
+                                      child: Text('Brochure'),
+                                      style: ElevatedButton.styleFrom(
+                                        textStyle: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(8),
+                                          side: BorderSide.none,
+                                        ),
+                                        backgroundColor:
+                                            Color.fromARGB(200, 235, 10, 10),
+                                        foregroundColor: Colors.white,
+                                      ))),
+                              Container(
+                                margin: EdgeInsets.all(5),
                                 width: 130,
                                 height: 40,
                                 child: ElevatedButton(
@@ -235,11 +277,11 @@ class _VideoContentState extends State<VideoContent> {
                                         filteredFiles = file_detail_list
                                             .where((file) =>
                                                 file.IDcategory_first ==
-                                                'Brochure')
+                                                'Full Line Catalog')
                                             .toList();
                                       });
                                     },
-                                    child: Text('Brochure'),
+                                    child: Text('Full Line'),
                                     style: ElevatedButton.styleFrom(
                                       textStyle: TextStyle(
                                         fontSize: 20,
@@ -252,98 +294,70 @@ class _VideoContentState extends State<VideoContent> {
                                       backgroundColor:
                                           Color.fromARGB(200, 235, 10, 10),
                                       foregroundColor: Colors.white,
-                                    ))),
-                            Container(
-                              margin: EdgeInsets.all(5),
-                              width: 130,
-                              height: 40,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      filteredFiles = file_detail_list
-                                          .where((file) =>
-                                              file.IDcategory_first ==
-                                              'Full Line Catalog')
-                                          .toList();
-                                    });
-                                  },
-                                  child: Text('Full Line'),
-                                  style: ElevatedButton.styleFrom(
-                                    textStyle: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide.none,
-                                    ),
-                                    backgroundColor:
-                                        Color.fromARGB(200, 235, 10, 10),
-                                    foregroundColor: Colors.white,
-                                  )),
-                            ),
-                            Container(
-                              width: 130,
-                              height: 40,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    // Add your filter functionality here
-                                    setState(() {
-                                      filteredFiles = file_detail_list
-                                          .where((file) =>
-                                              file.IDcategory_first ==
-                                              'Picture AllProduct')
-                                          .toList();
-                                    });
-                                  },
-                                  child: Text('Picture'),
-                                  style: ElevatedButton.styleFrom(
-                                    textStyle: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide.none,
-                                    ),
-                                    backgroundColor:
-                                        Color.fromARGB(200, 235, 10, 10),
-                                    foregroundColor: Colors.white,
-                                  )),
-                            ),
-                            Container(
-                              margin: EdgeInsets.all(5),
-                              width: 130,
-                              height: 40,
-                              child: ElevatedButton(
-                                  onPressed: () {
-                                    // Add your filter functionality here
-                                    setState(() {
-                                      filteredFiles = file_detail_list
-                                          .where((file) =>
-                                              file.IDcategory_first ==
-                                              'Video AllProduct')
-                                          .toList();
-                                    });
-                                  },
-                                  child: Text('Video'),
-                                  style: ElevatedButton.styleFrom(
-                                    textStyle: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(8),
-                                      side: BorderSide.none,
-                                    ),
-                                    backgroundColor:
-                                        Color.fromARGB(200, 235, 10, 10),
-                                    foregroundColor: Colors.white,
-                                  )),
-                            ),
-                          ],
+                                    )),
+                              ),
+                              Container(
+                                width: 130,
+                                height: 40,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      // Add your filter functionality here
+                                      setState(() {
+                                        filteredFiles = file_detail_list
+                                            .where((file) =>
+                                                file.IDcategory_first ==
+                                                'Picture AllProduct')
+                                            .toList();
+                                      });
+                                    },
+                                    child: Text('Picture'),
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: BorderSide.none,
+                                      ),
+                                      backgroundColor:
+                                          Color.fromARGB(200, 235, 10, 10),
+                                      foregroundColor: Colors.white,
+                                    )),
+                              ),
+                              Container(
+                                margin: EdgeInsets.all(5),
+                                width: 130,
+                                height: 40,
+                                child: ElevatedButton(
+                                    onPressed: () {
+                                      // Add your filter functionality here
+                                      setState(() {
+                                        filteredFiles = file_detail_list
+                                            .where((file) =>
+                                                file.IDcategory_first ==
+                                                'Video AllProduct')
+                                            .toList();
+                                      });
+                                    },
+                                    child: Text('Video'),
+                                    style: ElevatedButton.styleFrom(
+                                      textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8),
+                                        side: BorderSide.none,
+                                      ),
+                                      backgroundColor:
+                                          Color.fromARGB(200, 235, 10, 10),
+                                      foregroundColor: Colors.white,
+                                    )),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
                       Column(
                         // แสดงไฟล์ที่เกี่ยวข้อง
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -357,8 +371,9 @@ class _VideoContentState extends State<VideoContent> {
                                     (video) => video.Tag.contains(data.Tag)) &&
                                 id_video != data.path_video)
                               Padding(
-                                padding: EdgeInsets.fromLTRB(30, 10, 30, 10),
+                                padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
                                 child: Container(
+                                  height: 120,
                                   color: Color.fromARGB(0, 230, 84, 84),
                                   child: ElevatedButton(
                                     style: ElevatedButton.styleFrom(
@@ -381,10 +396,13 @@ class _VideoContentState extends State<VideoContent> {
                                             width: screensize * 0.5,
                                             child: Container(
                                               child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment
+                                                        .spaceBetween,
                                                 children: [
                                                   Container(
                                                     child: const Text(
-                                                      'ชื่อไฟล์        : ',
+                                                      'ชื่อไฟล์ : ',
                                                       style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
@@ -401,7 +419,7 @@ class _VideoContentState extends State<VideoContent> {
                                                       constraints:
                                                           const BoxConstraints(
                                                               maxWidth:
-                                                                  250 // หรือค่าที่คุณต้องการ
+                                                                  500 // หรือค่าที่คุณต้องการ
                                                               ),
                                                       child: Flexible(
                                                         child: Text(
@@ -414,10 +432,9 @@ class _VideoContentState extends State<VideoContent> {
                                                     ),
                                                   ),
                                                   Container(
-                                                    //ปุ่มดาวน์โหลด คลิกเพื่อดาวน์โหลดไฟล์ที่อยู่ในServer ถ้าคลิกที่เป็นVideo youtube จะแสดง
                                                     height: 20,
                                                     constraints: BoxConstraints(
-                                                        maxWidth: 200),
+                                                        minHeight: 35),
                                                     child: ElevatedButton(
                                                       onPressed: () {
                                                         String url =
@@ -427,7 +444,10 @@ class _VideoContentState extends State<VideoContent> {
                                                       child: const Text(
                                                         'Download',
                                                         style: TextStyle(
-                                                            fontSize: 12),
+                                                            fontSize: 17,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w900),
                                                       ),
                                                     ),
                                                   ),
@@ -456,10 +476,12 @@ class _VideoContentState extends State<VideoContent> {
                                                                 MaterialPageRoute(
                                                           builder: (context) {
                                                             return VideoContent(
-                                                              idref:
-                                                                  '${data.path_video}',
-                                                              title: '',
-                                                            );
+                                                                idref:
+                                                                    '${data.path_video}',
+                                                                title:
+                                                                    '${data.name_file}',
+                                                                id_firstcate:
+                                                                    '${data.IDcategory_first}');
                                                           },
                                                         ));
                                                         print(
@@ -564,7 +586,7 @@ class _VideoContentState extends State<VideoContent> {
                                                     child: Column(
                                                       crossAxisAlignment:
                                                           CrossAxisAlignment
-                                                              .start,
+                                                              .end,
                                                       children: [
                                                         Container(
                                                           margin:
@@ -573,12 +595,9 @@ class _VideoContentState extends State<VideoContent> {
                                                                   10, 0, 10, 0),
                                                           width: screensize,
                                                           child: Row(
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .start,
                                                             children: [
                                                               const Text(
-                                                                'ชื่อไฟล์        : ',
+                                                                'ชื่อไฟล์ :',
                                                                 style:
                                                                     TextStyle(
                                                                   fontWeight:
@@ -789,10 +808,13 @@ class _VideoContentState extends State<VideoContent> {
                                     },
                                     child: Row(
                                       //รูปภาพและรายละเอียดของ ไฟล์ที่เกี่ยวข้อง
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Container(
-                                          margin: EdgeInsets.all(5),
-                                          width: 270,
+                                          margin:
+                                              EdgeInsets.fromLTRB(0, 0, 20, 0),
+                                          width: 200,
                                           height: 150,
                                           child: Container(
                                               height: 150,
@@ -832,7 +854,7 @@ class _VideoContentState extends State<VideoContent> {
                                         Container(
                                           padding:
                                               EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                          width: 300,
+                                          width: 400,
                                           height: 150,
                                           child: Column(
                                             crossAxisAlignment:
@@ -845,7 +867,7 @@ class _VideoContentState extends State<VideoContent> {
                                                   fontWeight: FontWeight.bold,
                                                 ),
                                                 overflow: TextOverflow.ellipsis,
-                                                maxLines: 2,
+                                                maxLines: 1,
                                               ),
                                               Text(
                                                 'รายละเอียด : ${data.description_file}',
