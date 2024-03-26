@@ -396,10 +396,11 @@ class _UploadHomeState extends State<UploadHome> {
             ),
           );
         } else if (currentOption2 !=
-                null && //ตรวจสอบว่า ถ้าหมวดหมู่ที่2ที่เลือกมีหมวดหมู่ย่อย ต้องเลือกหมวดหมู่ย่อยก่อน
+                null && // check if second category is selected
             third_category_list
                 .any((item) => item.IDcategory_second == currentOption2) &&
-            currentOption3 == null) {
+            currentOption3 == null &&
+            currentOption != 'Full Line Catalog') {
           print(second_category_list);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
@@ -2755,10 +2756,11 @@ class _UploadHomeState extends State<UploadHome> {
             ),
           );
         } else if (currentOption2 !=
-                null && //ตรวจสอบว่า ถ้าหมวดหมู่ที่2ที่เลือกมี หมวดหมู่ย่อยต้องเลือกหมวดหมู่ย่อยก่อน
+                null && // check if second category is selected
             third_category_list
                 .any((item) => item.IDcategory_second == currentOption2) &&
-            currentOption3 == null) {
+            currentOption3 == null &&
+            currentOption != 'Full Line Catalog') {
           print(second_category_list);
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(

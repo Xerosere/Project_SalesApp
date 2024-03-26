@@ -22,6 +22,7 @@ $sql2 = "DELETE FROM filemanage_filedetail
 
 
 $result1 = mysqli_query($conn, $sql1);
+$result2 = mysqli_query($conn, $sql2);
 
 
 if ($result1) {

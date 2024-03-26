@@ -2,24 +2,23 @@
 header("Access-Control-Allow-Origin:*");
 include('connectphp.php');
 
-echo 'come';
 
 $nameFile = $_POST['nameFile'];
-$descriptionFile =$_POST['descriptionFile'];
+$descriptionFile = $_POST['descriptionFile'];
 $datetime_upload = $_POST['datetimeUpload'];
 $user_upload = $_POST['user_upload'];
 $number_cate = $_POST['number_cate'];
 $path_video = $_POST['path_video'];
 $IDcategory_first = $_POST['IDcategory_first'];
-$IDcategory_second= $_POST['IDcategory_second'];
-$IDcategory_third= $_POST['IDcategory_third'];
-$IDcategory_fourth= $_POST['IDcategory_fourth'];
+$IDcategory_second = $_POST['IDcategory_second'];
+$IDcategory_third = $_POST['IDcategory_third'];
+$IDcategory_fourth = $_POST['IDcategory_fourth'];
 // $IDcategory_fifth= $_GET['IDcategory_fifth'];
-$type_file= $_POST['type_file'];
+$type_file = $_POST['type_file'];
 // $user_deleted= $_GET['user_deleted'];
 // $datetime_deleted= $_GET['datetime_deleted'];
 
-echo 'Sent';
+
 
 
 
@@ -36,4 +35,3 @@ if ($result) {
 } else {
     echo 'Error: ' . mysqli_error($conn);
 }
-?>
