@@ -166,7 +166,7 @@ class _myContentAreaState extends State<myContentArea> {
           ),
           actions: [
             Container(
-              width: screensize * 0.665,
+              width: screensize * 0.57,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -175,6 +175,42 @@ class _myContentAreaState extends State<myContentArea> {
                 ],
               ),
             ),
+            Container(
+              // ปุ่มUploadหน้าcontent
+              margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
+              child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                      foregroundColor: Colors.white),
+                  onPressed: () {
+                    Navigator.pushNamed(context, myconstant.routeUploadHome)
+                        .then((result) {
+                      currentOption2 = null;
+                      currentOption3 = null;
+                      currentOption4 = null;
+                      file_detail_list.clear();
+                      String apipath =
+                          'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
+                      Dio().get(apipath).then((value) {
+                        print('ไฟล์Home' + '$value');
+                        for (var data in jsonDecode(value.data)) {
+                          FileModel filedetail = FileModel.fromMap(data);
+                          setState(
+                            () {
+                              file_detail_list.add(filedetail);
+                              // print(file_detail_list);
+                            },
+                          );
+                        }
+                      });
+                    });
+                  },
+                  icon: const Icon(CupertinoIcons.arrow_up_doc_fill),
+                  label: const Text('Upload')),
+            )
           ],
         ),
         body: SingleChildScrollView(

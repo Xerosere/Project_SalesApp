@@ -41,14 +41,11 @@ class _VideoContentState extends State<VideoContent> {
     _controller = YoutubePlayerController(
       initialVideoId: widget.idref,
     );
+
     id_video = widget.idref;
     id_Firstcategory = widget.id_firstcate;
     getfiledetail();
     getvideodetail();
-    print('XAZ  ${id_video}');
-    print('XAZ${widget.title}');
-    print('XAZzzz${id_Firstcategory}');
-    // Set filteredFiles to file_detail_list initially
     filteredFiles = file_detail_list;
   }
 

@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
             child: ElevatedButton.icon(
                 style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
+                      borderRadius: BorderRadius.circular(8),
                     ),
                     backgroundColor: Color.fromARGB(255, 0, 0, 0),
                     foregroundColor: Colors.white),

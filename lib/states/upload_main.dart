@@ -342,7 +342,7 @@ class _UploadHomeState extends State<UploadHome> {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              margin: EdgeInsets.fromLTRB(20, 50, 20, 20),
+                              margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
                               width: 200,
                               height: 50,
                               decoration: BoxDecoration(
@@ -356,9 +356,9 @@ class _UploadHomeState extends State<UploadHome> {
                           child: Align(
                             alignment: Alignment.bottomCenter,
                             child: Container(
-                              margin: EdgeInsets.fromLTRB(20, 50, 20, 20),
+                              margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
                               width: 200,
-                              height: 50,
+                              height: 40,
                               child: upLoadLinkYoutube(context), //ปุ่มอัพลิ้งค์
                             ),
                           ),
