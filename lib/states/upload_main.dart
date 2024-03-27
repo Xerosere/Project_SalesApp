@@ -295,18 +295,24 @@ class _UploadHomeState extends State<UploadHome> {
                                   margin: EdgeInsets.all(10),
                                   height: 50,
                                   width: 600,
-                                  child: TextFormField(
-                                    maxLength: 230,
-                                    inputFormatters: [
-                                      FilteringTextInputFormatter.allow(
-                                          RegExp(r'[a-zA-Z0-9_]')),
-                                    ],
-                                    decoration: const InputDecoration(
-                                      hintText:
-                                          'ชื่อไฟล์นำมาจาก Option ที่เลือก',
-                                      counterText: '',
+                                  child: Tooltip(
+                                    message: 'ชื่อไฟล์นำมาจาก Option ที่เลือก',
+                                    child: TextFormField(
+                                      maxLength: 230,
+                                      readOnly: true, // ทำให้ไม่สามารถแก้ไขได้
+                                      inputFormatters: [
+                                        FilteringTextInputFormatter.allow(
+                                            RegExp(r'[a-zA-Z0-9_]')),
+                                      ],
+                                      decoration: const InputDecoration(
+                                        counterText: '',
+                                        enabledBorder: InputBorder
+                                            .none, // กำหนดให้ไม่มีเส้นใต้เมื่อไม่สามารถแก้ไขได้
+                                        focusedBorder: InputBorder
+                                            .none, // กำหนดให้ไม่มีเส้นใต้เมื่อไม่สามารถแก้ไขได้
+                                      ),
+                                      controller: nameFileUpload,
                                     ),
-                                    controller: nameFileUpload,
                                   ),
                                 ),
                                 Container(
@@ -517,12 +523,12 @@ class _UploadHomeState extends State<UploadHome> {
                     children: [
                       TextFormField(
                         decoration: InputDecoration(
-                            hintText: 'Video Name'), //ป้อนชื่อของวิดีโอ
+                            hintText: 'ระบุชื่อวิดีโอ'), //ป้อนชื่อของวิดีโอ
                         controller: nameYoutube,
                       ),
                       TextFormField(
                         decoration: InputDecoration(
-                          hintText: 'Description', // ป้อนรายละเอียด
+                          hintText: 'ระบุรายละเอียด', // ป้อนรายละเอียด
                         ),
                         controller: descriptionLinkInput,
                         textInputAction: TextInputAction.newline,
