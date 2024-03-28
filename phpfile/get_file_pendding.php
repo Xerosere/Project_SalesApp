@@ -6,7 +6,7 @@ include('connectphp.php');
 
 
 $query = "SELECT * FROM filemanage_filedetail 
-WHERE status_file = 'approve'
+WHERE status_file = 'Pending'
 ";
 
 $result = mysqli_query($conn, $query);

@@ -7,7 +7,7 @@ $id_main_cate = $_GET['sent_id_first'];
 
 
 $query = "SELECT * FROM filemanage_filedetail
-WHERE IDcategory_first = '$id_main_cate'";
+WHERE IDcategory_first = '$id_main_cate' AND status_file = 'approve'";
 
 $result = mysqli_query($conn, $query);
 while ($row = mysqli_fetch_assoc($result)) {

@@ -23,6 +23,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  static const IconData add_task =
+      IconData(0xe05b, fontFamily: 'MaterialIcons');
+  static const IconData add_task_sharp =
+      IconData(0xe75a, fontFamily: 'MaterialIcons');
+  static const IconData add_to_home_screen =
+      IconData(0xe05d, fontFamily: 'MaterialIcons');
+
   int? currentOptionsent;
   List<FileModel> file_detail_list = [];
   TextEditingController descriptionFileEdit = TextEditingController();
@@ -70,42 +77,59 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: const Color.fromARGB(255, 235, 10, 30),
         foregroundColor: Colors.white,
         actions: [
-          Container(
-            // ปุ่มUploadหน้าHome
-            margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
-            child: ElevatedButton.icon(
-                style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    backgroundColor: Color.fromARGB(255, 0, 0, 0),
-                    foregroundColor: Colors.white),
-                onPressed: () {
-                  Navigator.pushNamed(context, myconstant.routeUploadHome)
-                      .then((result) {
-                    currentOption2 = null;
-                    currentOption3 = null;
-                    currentOption4 = null;
-                    file_detail_list.clear();
-                    String apipath =
-                        'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
-                    Dio().get(apipath).then((value) {
-                      print('ไฟล์Home' + '$value');
-                      for (var data in jsonDecode(value.data)) {
-                        FileModel filedetail = FileModel.fromMap(data);
-                        setState(
-                          () {
-                            file_detail_list.add(filedetail);
-                            // print(file_detail_list);
-                          },
-                        );
-                      }
+          Row(children: [
+            Container(
+                width: 160,
+                margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
+                child: ElevatedButton.icon(
+                    style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        backgroundColor: Color.fromARGB(255, 1, 22, 106),
+                        foregroundColor: Colors.white),
+                    onPressed: () {
+                      Navigator.pushNamed(context, myconstant.routeApprove);
+                    },
+                    icon: Icon(add_to_home_screen),
+                    label: Text('Pending files'))),
+            Container(
+              // ปุ่มUploadหน้าHome
+              margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
+              child: ElevatedButton.icon(
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      backgroundColor: Color.fromARGB(255, 0, 0, 0),
+                      foregroundColor: Colors.white),
+                  onPressed: () {
+                    Navigator.pushNamed(context, myconstant.routeUploadHome)
+                        .then((result) {
+                      currentOption2 = null;
+                      currentOption3 = null;
+                      currentOption4 = null;
+                      file_detail_list.clear();
+                      String apipath =
+                          'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
+                      Dio().get(apipath).then((value) {
+                        print('ไฟล์Home' + '$value');
+                        for (var data in jsonDecode(value.data)) {
+                          FileModel filedetail = FileModel.fromMap(data);
+                          setState(
+                            () {
+                              file_detail_list.add(filedetail);
+                              // print(file_detail_list);
+                            },
+                          );
+                        }
+                      });
                     });
-                  });
-                },
-                icon: const Icon(CupertinoIcons.arrow_up_doc_fill),
-                label: const Text('Upload')),
-          )
+                  },
+                  icon: const Icon(CupertinoIcons.arrow_up_doc_fill),
+                  label: const Text('Upload')),
+            ),
+          ])
         ],
       ),
       body: SingleChildScrollView(
@@ -135,12 +159,7 @@ class _HomePageState extends State<HomePage> {
                     child: TextField(
                       textInputAction: TextInputAction.go,
                       onSubmitted: (value) {
-                        setState(() {
-
-
-
-                          
-                        });
+                        setState(() {});
                         Navigator.push(context, MaterialPageRoute(
                           builder: (context) {
                             return Search_result(

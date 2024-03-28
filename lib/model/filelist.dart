@@ -6,15 +6,15 @@ class FileModel {
   final String datetime_upload;
   final String? description_file;
   final String? user_name;
-  final String number_cate; 
+  final String number_cate;
   final String IDcategory_first;
   final String? IDcategory_second;
   final String? IDcategory_third;
   final String? IDcategory_fourth;
   final String? IDcategory_fifth;
   final String? path_video;
-  final String  type_file; 
-  final String  Tag; 
+  final String type_file;
+  final String Tag;
   FileModel({
     required this.name_file,
     required this.datetime_upload,
@@ -87,15 +87,26 @@ class FileModel {
     return FileModel(
       name_file: map['name_file'] as String,
       datetime_upload: map['datetime_upload'] as String,
-      description_file: map['description_file'] != null ? map['description_file'] as String : null,
+      description_file: map['description_file'] != null
+          ? map['description_file'] as String
+          : null,
       user_name: map['user_name'] != null ? map['user_name'] as String : null,
       number_cate: map['number_cate'] as String,
       IDcategory_first: map['IDcategory_first'] as String,
-      IDcategory_second: map['IDcategory_second'] != null ? map['IDcategory_second'] as String : null,
-      IDcategory_third: map['IDcategory_third'] != null ? map['IDcategory_third'] as String : null,
-      IDcategory_fourth: map['IDcategory_fourth'] != null ? map['IDcategory_fourth'] as String : null,
-      IDcategory_fifth: map['IDcategory_fifth'] != null ? map['IDcategory_fifth'] as String : null,
-      path_video: map['path_video'] != null ? map['path_video'] as String : null,
+      IDcategory_second: map['IDcategory_second'] != null
+          ? map['IDcategory_second'] as String
+          : null,
+      IDcategory_third: map['IDcategory_third'] != null
+          ? map['IDcategory_third'] as String
+          : null,
+      IDcategory_fourth: map['IDcategory_fourth'] != null
+          ? map['IDcategory_fourth'] as String
+          : null,
+      IDcategory_fifth: map['IDcategory_fifth'] != null
+          ? map['IDcategory_fifth'] as String
+          : null,
+      path_video:
+          map['path_video'] != null ? map['path_video'] as String : null,
       type_file: map['type_file'] as String,
       Tag: map['Tag'] as String,
     );
@@ -103,7 +114,8 @@ class FileModel {
 
   String toJson() => json.encode(toMap());
 
-  factory FileModel.fromJson(String source) => FileModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory FileModel.fromJson(String source) =>
+      FileModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -113,37 +125,36 @@ class FileModel {
   @override
   bool operator ==(covariant FileModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.name_file == name_file &&
-      other.datetime_upload == datetime_upload &&
-      other.description_file == description_file &&
-      other.user_name == user_name &&
-      other.number_cate == number_cate &&
-      other.IDcategory_first == IDcategory_first &&
-      other.IDcategory_second == IDcategory_second &&
-      other.IDcategory_third == IDcategory_third &&
-      other.IDcategory_fourth == IDcategory_fourth &&
-      other.IDcategory_fifth == IDcategory_fifth &&
-      other.path_video == path_video &&
-      other.type_file == type_file &&
-      other.Tag == Tag;
+
+    return other.name_file == name_file &&
+        other.datetime_upload == datetime_upload &&
+        other.description_file == description_file &&
+        other.user_name == user_name &&
+        other.number_cate == number_cate &&
+        other.IDcategory_first == IDcategory_first &&
+        other.IDcategory_second == IDcategory_second &&
+        other.IDcategory_third == IDcategory_third &&
+        other.IDcategory_fourth == IDcategory_fourth &&
+        other.IDcategory_fifth == IDcategory_fifth &&
+        other.path_video == path_video &&
+        other.type_file == type_file &&
+        other.Tag == Tag;
   }
 
   @override
   int get hashCode {
     return name_file.hashCode ^
-      datetime_upload.hashCode ^
-      description_file.hashCode ^
-      user_name.hashCode ^
-      number_cate.hashCode ^
-      IDcategory_first.hashCode ^
-      IDcategory_second.hashCode ^
-      IDcategory_third.hashCode ^
-      IDcategory_fourth.hashCode ^
-      IDcategory_fifth.hashCode ^
-      path_video.hashCode ^
-      type_file.hashCode ^
-      Tag.hashCode;
+        datetime_upload.hashCode ^
+        description_file.hashCode ^
+        user_name.hashCode ^
+        number_cate.hashCode ^
+        IDcategory_first.hashCode ^
+        IDcategory_second.hashCode ^
+        IDcategory_third.hashCode ^
+        IDcategory_fourth.hashCode ^
+        IDcategory_fifth.hashCode ^
+        path_video.hashCode ^
+        type_file.hashCode ^
+        Tag.hashCode;
   }
 }

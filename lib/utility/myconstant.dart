@@ -6,6 +6,7 @@ class myconstant {
   static String routeUploadHome = '/UploadHome';
   static String routeContent = '/myContentArea';
   static String routeVideoContent = '/video_content';
+  static String routeApprove = '/approve_page';
 
   static String buttonpresentbg = 'images/buttonpresentbg.jpg';
   static String buttonproductbg = 'images/productbg.png';

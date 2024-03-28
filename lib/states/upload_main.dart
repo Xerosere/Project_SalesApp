@@ -618,7 +618,8 @@ class _UploadHomeState extends State<UploadHome> {
                                   'IDcategory_third=$currentOption3&'
                                   'IDcategory_fourth=$currentOption4&'
                                   'type_of_file=youtube_url&'
-                                  'tag_file=${currentOption3 != null ? '$currentOption3,' : ''}${chipsList.join(',')}';
+                                  'tag_file=${currentOption3 != null ? '$currentOption3,' : ''}${chipsList.join(',')}&'
+                                  'status_file=Pending';
 
                               Dio().get(apipath).then((response) {
                                 print(response);
@@ -2960,7 +2961,10 @@ class _UploadHomeState extends State<UploadHome> {
                     'IDcategory_fourth=$currentOption4&'
                     'IDpath_youtube=null&'
                     'type_of_file=fileServer_url&'
-                    'tag_file=$currentOption3,${chipsList.join(',')}';
+                    'tag_file=$currentOption3,${chipsList.join(',')}&'
+                    'status_file='
+                    'Pending'
+                    '';
 
                 Dio().get(apipath).then((value) {
                   print(value);
@@ -2982,7 +2986,8 @@ class _UploadHomeState extends State<UploadHome> {
                     'IDcategory_fourth=$currentOption4&'
                     'IDpath_youtube=null&'
                     'type_of_file=fileServer_url&'
-                    'tag_file=${chipsList.join(',')}'; // รวมรายการชิปด้วยเครื่องหมายจุลภาค
+                    'tag_file=${chipsList.join(',')}&'
+                    'status_file=Pending'; // รวมรายการชิปด้วยเครื่องหมายจุลภาค
 
                 Dio().get(apipath).then((value) {
                   print(value);

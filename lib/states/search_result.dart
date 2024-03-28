@@ -179,7 +179,8 @@ class _Search_resultState extends State<Search_result> {
                                                       if (data.name_file
                                                           .toLowerCase()
                                                           .endsWith('.pdf')) {
-                                                        return 'https://btmexpertsales.com/filemanagesys/showpdf.php?url=file/${data.name_file}';
+                                                        return myconstant
+                                                            .pdficon;
                                                       } else if (data.name_file
                                                           .toLowerCase()
                                                           .endsWith('.docx')) {
