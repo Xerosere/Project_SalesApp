@@ -133,7 +133,8 @@ class _approve_pageState extends State<approve_page> {
                                         Text(data.name_file),
                                         Container(
                                           height: 30,
-                                          child: ElevatedButton(  //ปุ่มดาวน์โหลด
+                                          child: ElevatedButton(
+                                            //ปุ่มดาวน์โหลด
                                             onPressed: () {
                                               String url =
                                                   'https://btmexpertsales.com/filemanagesys/download.php?filename=${data.name_file}';
@@ -245,8 +246,7 @@ class _approve_pageState extends State<approve_page> {
                                                           image: AssetImage(
                                                               myconstant
                                                                   .playicon),
-                                                          fit: BoxFit
-                                                              .scaleDown,
+                                                          fit: BoxFit.scaleDown,
                                                         ),
                                                       ),
                                                     ),
@@ -254,7 +254,8 @@ class _approve_pageState extends State<approve_page> {
                                               ],
                                             ),
                                           ),
-                                          Container(    //รายละเอียดต่างๆของไฟล์
+                                          Container(
+                                            //รายละเอียดต่างๆของไฟล์
                                             child: Column(
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
@@ -383,14 +384,16 @@ class _approve_pageState extends State<approve_page> {
                                         ],
                                       ),
                                     ),
-                                    actions: [   //ปุ่มต่างๆในหน้ารายละเอียดไฟล์
+                                    actions: [
+                                      //ปุ่มต่างๆในหน้ารายละเอียดไฟล์
                                       Row(
                                         mainAxisAlignment:
                                             MainAxisAlignment.spaceBetween,
                                         children: [
                                           Row(
                                             children: [
-                                              Container(  //ปุ่มอนุมัติให้ไฟล์แสดงที่หน้าแอพได้
+                                              Container(
+                                                //ปุ่มอนุมัติให้ไฟล์แสดงที่หน้าแอพได้
                                                 margin: EdgeInsets.all(5),
                                                 height: 50,
                                                 child: ElevatedButton.icon(
@@ -426,7 +429,8 @@ class _approve_pageState extends State<approve_page> {
                                                     ),
                                                   ),
                                                   onPressed: () async {
-                                                    showDialog(      //แจ้งเตือนให้กดยืนยันอีก1รอบ
+                                                    showDialog(
+                                                      //แจ้งเตือนให้กดยืนยันอีก1รอบ
                                                       context: context2,
                                                       builder: (context) {
                                                         return WillPopScope(
@@ -515,11 +519,14 @@ class _approve_pageState extends State<approve_page> {
                                                                       );
                                                                     }
                                                                   });
+
                                                                   Navigator.pop(
                                                                       context);
                                                                   Navigator.pop(
                                                                       context2);
-                                                                  ScaffoldMessenger.of(  //แจ้งเตือนการอนุมัติ
+
+                                                                  ScaffoldMessenger.of(
+                                                                          //แจ้งเตือนการอนุมัติ
                                                                           context)
                                                                       .showSnackBar(
                                                                     SnackBar(
@@ -570,7 +577,8 @@ class _approve_pageState extends State<approve_page> {
                                                   ),
                                                 ),
                                               ),
-                                              Container(   //ปุ่มReject
+                                              Container(
+                                                //ปุ่มReject
                                                 margin: EdgeInsets.all(5),
                                                 height: 50,
                                                 child: ElevatedButton.icon(
@@ -606,7 +614,8 @@ class _approve_pageState extends State<approve_page> {
                                                       ),
                                                     ),
                                                     onPressed: () {
-                                                      showDialog(  //แจ้งเตือนว่าจะReject หรือไม่
+                                                      showDialog(
+                                                        //แจ้งเตือนว่าจะReject หรือไม่
                                                         context: context2,
                                                         builder: (context) {
                                                           return WillPopScope(
@@ -643,11 +652,12 @@ class _approve_pageState extends State<approve_page> {
                                                                 ),
                                                               ),
                                                               actions: <Widget>[
-                                                                TextButton(  //ปุ่มยืนยันการ Reject
+                                                                TextButton(
+                                                                  //ปุ่มยืนยันการ Reject
                                                                   onPressed:
                                                                       () async {
                                                                     String
-                                                                        apipath =   //ลบไฟล์ออกจากsql
+                                                                        apipath = //ลบไฟล์ออกจากsql
                                                                         'https://btmexpertsales.com/filemanagesys/delete_pendding_file.php?id_file=${data.number_cate}';
 
                                                                     await http
@@ -695,10 +705,12 @@ class _approve_pageState extends State<approve_page> {
                                                                         );
                                                                       }
                                                                     });
+
                                                                     Navigator.pop(
                                                                         context);
                                                                     Navigator.pop(
                                                                         context2);
+
                                                                     ScaffoldMessenger.of(
                                                                             context)
                                                                         .showSnackBar(
@@ -717,14 +729,16 @@ class _approve_pageState extends State<approve_page> {
                                                                           .blue,
                                                                     ),
                                                                   ),
-                                                                ),    
-                                                                TextButton(    //ยกเลิก
+                                                                ),
+                                                                TextButton(
+                                                                    //ยกเลิก
                                                                     onPressed:
                                                                         () {
                                                                       Navigator.pop(
                                                                           context);
                                                                     },
-                                                                    child: const Text(
+                                                                    child:
+                                                                        const Text(
                                                                       'cancel',
                                                                       style:
                                                                           TextStyle(
@@ -752,11 +766,13 @@ class _approve_pageState extends State<approve_page> {
                                           ),
                                           Row(
                                             children: [
-                                              TextButton( //ปุ่มปิดหน้าต่างแสดงรายละเอียดต่างๆของไฟล์
+                                              TextButton(
+                                                  //ปุ่มปิดหน้าต่างแสดงรายละเอียดต่างๆของไฟล์
                                                   onPressed: () =>
                                                       Navigator.pop(context),
                                                   child: Text('Back')),
-                                              Container(   // ปุ่มแก้ไขไฟล์
+                                              Container(
+                                                // ปุ่มแก้ไขไฟล์
                                                 child: Row(
                                                   children: [
                                                     TextButton(
@@ -775,7 +791,7 @@ class _approve_pageState extends State<approve_page> {
                                                                     child:
                                                                         Column(
                                                                       children: [
-                                                                        TextField(   
+                                                                        TextField(
                                                                           controller:
                                                                               descriptionFileEdit, // ใช้ TextEditingController ที่กำหนดไว้ก่อนหน้านี้
                                                                           decoration:
@@ -784,7 +800,6 @@ class _approve_pageState extends State<approve_page> {
                                                                                 'แก้ไขรายละเอียด', // ให้เป็น label ของ TextField
                                                                           ),
                                                                         ),
-
                                                                         Container(
                                                                             //แก้ไขtag ของไฟล์โดยการจะแทนค่าที่tagเดิมทั้งหมด
                                                                             width:
@@ -980,10 +995,8 @@ class _approve_pageState extends State<approve_page> {
 
                                                                         await Dio()
                                                                             .get(apipath2)
-                                                                            .then((value) {
-                                                                          print(
-                                                                              value);
-                                                                        });
+                                                                            .then((value) {});
+
                                                                         Navigator.pop(
                                                                             context);
                                                                         Navigator

@@ -619,7 +619,7 @@ class _UploadHomeState extends State<UploadHome> {
                                   'IDcategory_fourth=$currentOption4&'
                                   'type_of_file=youtube_url&'
                                   'tag_file=${currentOption3 != null ? '$currentOption3,' : ''}${chipsList.join(',')}&'
-                                  'status_file=Pending';
+                                  'status_file=approve'; //ต้องเปลี่ยนเป็นPending
 
                               Dio().get(apipath).then((response) {
                                 print(response);
@@ -687,12 +687,12 @@ class _UploadHomeState extends State<UploadHome> {
         children: [
           const Text(
             'SELECT FOLDER',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 17),
           const Text(
             'เลือกหมวดหมู่',
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
           ),
           const SizedBox(height: 10),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -2790,12 +2790,13 @@ class _UploadHomeState extends State<UploadHome> {
           String apipath =
               'https://btmexpertsales.com/filemanagesys/get_allfiledetail.php';
           await Dio().get(apipath).then((value) {
-            // print('ไฟล์Home$value');
+            print('ไฟล์Home$value');
             for (var data in jsonDecode(value.data)) {
               FileModel filedetail = FileModel.fromMap(data);
               setState(
                 () {
                   file_detail_list.add(filedetail);
+                  print('ไฟล์Pending$file_detail_list');
                 },
               );
             }
@@ -2809,11 +2810,14 @@ class _UploadHomeState extends State<UploadHome> {
               '${nameFileUpload.text}.$filetype'; //filenameWithExtension = ชื่อ + นามสกุลไฟล์
 
           if (filenameWithExtension.isNotEmpty) {
+            print('ชื่อไฟล์ != null');
             bool nameExists = file_detail_list.any((item) =>
                 item.name_file ==
                 filenameWithExtension); // ตรวจสอบว่าชื่อไฟล์ซ้ำหรือไม่
 
             if (nameExists) {
+              print('ชื่อใหม่!= null');
+
               // หากชื่อไฟล์ซ้ำ แก้ไขชื่อไฟล์ใหม่ ให้เป็นรูปแบบ ชื่อไฟล์,ชื่อไฟล์(1),ชื่อไฟล์(2)
 
               int count = 1;
@@ -2910,7 +2914,7 @@ class _UploadHomeState extends State<UploadHome> {
 
           // อัปโหลดไฟล์ไปยังเซิร์ฟเวอร์
 
-          print('55555555$filenameWithExtension');
+          print('55555555414848454$filenameWithExtension');
           var apipath2 =
               'https://www.btmexpertsales.com/filemanagesys/upload_file_filemanage.php';
 
@@ -2963,8 +2967,8 @@ class _UploadHomeState extends State<UploadHome> {
                     'type_of_file=fileServer_url&'
                     'tag_file=$currentOption3,${chipsList.join(',')}&'
                     'status_file='
-                    'Pending'
-                    '';
+                    'approve' //ต้องเปลี่ยนเป็นPending
+                    ;
 
                 Dio().get(apipath).then((value) {
                   print(value);
@@ -2987,7 +2991,7 @@ class _UploadHomeState extends State<UploadHome> {
                     'IDpath_youtube=null&'
                     'type_of_file=fileServer_url&'
                     'tag_file=${chipsList.join(',')}&'
-                    'status_file=Pending'; // รวมรายการชิปด้วยเครื่องหมายจุลภาค
+                    'status_file=approve'; // รวมรายการชิปด้วยเครื่องหมายจุลภาค               //ต้องเปลี่ยนเป็นPending
 
                 Dio().get(apipath).then((value) {
                   print(value);

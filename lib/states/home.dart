@@ -78,21 +78,21 @@ class _HomePageState extends State<HomePage> {
         foregroundColor: Colors.white,
         actions: [
           Row(children: [
-            Container(
-                width: 160,
-                margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
-                child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        backgroundColor: Color.fromARGB(255, 1, 22, 106),
-                        foregroundColor: Colors.white),
-                    onPressed: () {
-                      Navigator.pushNamed(context, myconstant.routeApprove);
-                    },
-                    icon: Icon(add_to_home_screen),
-                    label: Text('Pending files'))),
+            // Container(      //ฟังก์ชั่น approve file ใช้งานไม่ได้เพราะว่า ถ้ากำหนด status file = Pending ถ้าชื่อไฟล์ซ้ำโปรแกรมจะไม่รันเลขหลังชื่อให้ ทำให้ชื่อไฟล์ซ้ำและไฟล์ที่อัพลงเซิฟเวอร์ไปทำไฟล์เดิม
+            //     width: 160,
+            //     margin: EdgeInsets.fromLTRB(0, 0, 25, 0),
+            //     child: ElevatedButton.icon(
+            //         style: ElevatedButton.styleFrom(
+            //             shape: RoundedRectangleBorder(
+            //               borderRadius: BorderRadius.circular(8),
+            //             ),
+            //             backgroundColor: Color.fromARGB(255, 1, 22, 106),
+            //             foregroundColor: Colors.white),
+            //         onPressed: () {
+            //           Navigator.pushNamed(context, myconstant.routeApprove);
+            //         },
+            //         icon: Icon(add_to_home_screen),
+            //         label: Text('Pending files'))),
             Container(
               // ปุ่มUploadหน้าHome
               margin: EdgeInsets.fromLTRB(0, 0, 25, 0),

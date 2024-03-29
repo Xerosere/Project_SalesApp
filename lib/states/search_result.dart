@@ -501,7 +501,7 @@ class _Search_resultState extends State<Search_result> {
                             Container(
                               padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
                               width: 300,
-                              height: 108,
+                              height: 120,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [

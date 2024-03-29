@@ -725,7 +725,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                                             FontWeight
                                                                                 .bold,
                                                                         fontSize:
-                                                                            16)),
+                                                                            14)),
                                                                 Text(
                                                                     "${data.name_file}"),
                                                               ],
@@ -753,7 +753,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                                         FontWeight
                                                                             .bold,
                                                                     fontSize:
-                                                                        16,
+                                                                        14,
                                                                   ),
                                                                   textAlign:
                                                                       TextAlign
@@ -787,7 +787,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                                             FontWeight
                                                                                 .bold,
                                                                         fontSize:
-                                                                            16)),
+                                                                            14)),
                                                                 Text(
                                                                     "${data.user_name}"),
                                                               ],
@@ -811,7 +811,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                                             FontWeight
                                                                                 .bold,
                                                                         fontSize:
-                                                                            16)),
+                                                                            14)),
                                                                 Text(data
                                                                     .datetime_upload),
                                                               ],
@@ -835,7 +835,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                                           FontWeight
                                                                               .bold,
                                                                       fontSize:
-                                                                          16),
+                                                                          14),
                                                                 ),
                                                                 Text(
                                                                     "${data.number_cate}"),
@@ -859,10 +859,13 @@ class _myContentAreaState extends State<myContentArea> {
                                                                           FontWeight
                                                                               .bold,
                                                                       fontSize:
-                                                                          16),
+                                                                          14),
                                                                 ),
                                                                 Text(
-                                                                    "${data.Tag}"),
+                                                                    "${data.Tag}",
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .visible),
                                                               ],
                                                             ),
                                                           ),
@@ -1085,7 +1088,7 @@ class _myContentAreaState extends State<myContentArea> {
                                         padding:
                                             EdgeInsets.fromLTRB(0, 10, 0, 0),
                                         width: 300,
-                                        height: 108,
+                                        height: 109,
                                         child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
@@ -1312,7 +1315,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 16)),
+                                                          fontSize: 14)),
                                                   Text("${file.name_file}"),
                                                 ],
                                               ),
@@ -1330,7 +1333,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                     style: TextStyle(
                                                       fontWeight:
                                                           FontWeight.bold,
-                                                      fontSize: 16,
+                                                      fontSize: 14,
                                                     ),
                                                     textAlign: TextAlign.start,
                                                   ),
@@ -1353,7 +1356,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 16)),
+                                                          fontSize: 14)),
                                                   Text("${file.user_name}"),
                                                 ],
                                               ),
@@ -1369,7 +1372,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                       style: TextStyle(
                                                           fontWeight:
                                                               FontWeight.bold,
-                                                          fontSize: 16)),
+                                                          fontSize: 14)),
                                                   Text(file.datetime_upload),
                                                 ],
                                               ),
@@ -1385,7 +1388,7 @@ class _myContentAreaState extends State<myContentArea> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 16),
+                                                        fontSize: 14),
                                                   ),
                                                   Text("${file.number_cate}"),
                                                 ],
@@ -1401,9 +1404,11 @@ class _myContentAreaState extends State<myContentArea> {
                                                     style: TextStyle(
                                                         fontWeight:
                                                             FontWeight.bold,
-                                                        fontSize: 16),
+                                                        fontSize: 14),
                                                   ),
-                                                  Text("${file.Tag}"),
+                                                  Text("${file.Tag}",
+                                                      overflow:
+                                                          TextOverflow.visible),
                                                 ],
                                               ),
                                             ),

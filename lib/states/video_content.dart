@@ -103,7 +103,7 @@ class _VideoContentState extends State<VideoContent> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                        width: 800,
+                        width: 777,
                         height: 400,
                         // แสดงวิดีโอ
                         margin: EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -132,7 +132,7 @@ class _VideoContentState extends State<VideoContent> {
                             Container(
                               // รายละเอียด
                               margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                              width: 800,
+                              width: 700,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -174,25 +174,32 @@ class _VideoContentState extends State<VideoContent> {
                               ),
                             ),
                             Container(
-                              // tag
                               margin: EdgeInsets.fromLTRB(20, 10, 10, 10),
-                              child: Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   const Text(
                                     'Tags : ',
                                     style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w900),
-                                  ),
-                                  Text(
-                                    '${data.Tag}',
-                                    style: TextStyle(
                                       fontSize: 16,
+                                      fontWeight: FontWeight.w900,
                                     ),
+                                  ),
+                                  Wrap(
+                                    spacing: 8, // ระยะห่างระหว่าง tags
+                                    children: [
+                                      Text(
+                                        '${data.Tag}',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                        ),
+                                      ),
+                                      // สร้าง Text widget สำหรับแต่ละ tag โดยใช้ข้อมูลจาก data.Tag
+                                    ],
                                   ),
                                 ],
                               ),
-                            ),
+                            )
                           ],
                         ),
                     ],
@@ -217,6 +224,7 @@ class _VideoContentState extends State<VideoContent> {
                     children: [
                       for (var data in video_detail_list)
                         Container(
+                            width: screensize * 0.3,
                             margin: const EdgeInsets.fromLTRB(30, 10, 10, 10),
                             child: Text(
                               'ไฟล์ที่เกี่ยวข้อง :   ${data.Tag}',
@@ -628,7 +636,7 @@ class _VideoContentState extends State<VideoContent> {
                                                                     .start,
                                                             children: [
                                                               const Text(
-                                                                'รายละเอียด : ',
+                                                                '',
                                                                 style:
                                                                     TextStyle(
                                                                   fontWeight:
@@ -851,7 +859,7 @@ class _VideoContentState extends State<VideoContent> {
                                         Container(
                                           padding:
                                               EdgeInsets.fromLTRB(0, 10, 0, 0),
-                                          width: 400,
+                                          width: 350,
                                           height: 150,
                                           child: Column(
                                             crossAxisAlignment:
